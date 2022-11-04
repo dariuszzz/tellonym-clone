@@ -80,6 +80,10 @@ function waliduj() {
         wiadomosc += blad == ""?"":blad + "\n" // wtawianie enteru w alercie
     })
 
-    if (wiadomosc != "") { alert("KIEPŚCIUTKO\n" + wiadomosc) }
+    if (wiadomosc == "") { 
+        alert("Wszystko super")
+    } else {
+        alert("KIEPŚCIUTKO\n" + wiadomosc)
+    }
 
 }
