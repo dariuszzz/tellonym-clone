@@ -2,6 +2,8 @@
     <head>
         <title>Projekt</title>
         <meta charset="utf-8"/>
+
+        <script src="skrypcior.js"></script>
     </head>
     <body>
         <header>
@@ -30,16 +32,16 @@
         </article>
 
         <section>
-            <form action="">
+            <form name="super_formularz" action="" onsubmit="waliduj()">
                 <!-- Nienawidze html!!! label label label label-->
                 <label>Imie: 
-                    <input type="text"/>
+                    <input type="text" name="imie"/>
                 </label> <br>
                 <label>Nazwisko: 
-                    <input type="text"/>
+                    <input type="text" name="nazwisko"/>
                 </label> <br>
                 <label>Data ur:
-                    <input type="date"/>
+                    <input type="date" name="data_urodzenia"/>
                 </label> <br>
 
                 Plec:
@@ -52,12 +54,12 @@
                 </label> <br>
 
                 <label>Ulubiony kolor:
-                    <input type="color"/> 
+                    <input type="color" name="ulubiony_kolor"/> 
                 </label> <br>
 
                 <input type="submit" value="wyslij"/>
             </form>
         </section>
-        <footer>stopa</footer>
+        <footer>stoper</footer>
     </body> 
 </html>
