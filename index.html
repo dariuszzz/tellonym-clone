@@ -2,64 +2,86 @@
     <head>
         <title>Projekt</title>
         <meta charset="utf-8"/>
-
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <script src="skrypcior.js"></script>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
     </head>
     <body>
-        <header>
-            <h1>Praktyki</h1>
-            <h2>Praktyki</h2>
-            <h3>Praktyki</h3>
-            <h4>Praktyki</h4>
-            <h5>Praktyki</h5>
-            <img src="banan.gif"/>
-        </header>
+        <nav class="navbar navbar-expand-sm bg-dark navbar-dark justify-content-center">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><h5>menu 1</h5></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><h5>menu 2</h5></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#"><h5>menu 3</h5></a>
+                </li>
 
-        <nav>
-            menu 
-            <ul>
-                <a href="#"><li>menu 1</li></a>
-                <a href="#"><li>menu 2</li></a>
-                <a href="#"><li>menu 3</li></a>
             </ul>
         </nav>
-
-        <article>
+        <header class="container-fluid p-5 my-0.5 bg-dark text-white text-center">
+            <h1>Praktyki🥰</h1>
+            <h2>Praktyki😻</h2>
+            <h3>Praktyki😋</h3>
+            <h4>Praktyki👍</h4>
+            <h5>Praktyki😞</h5>
+            
+        </header>
+        
+        <article class="container-fluid p-5 bg-dark text-center text-white">
             <h2>Grupa praktykanciPL</h2>
             <p>
                 Grupa dla patriotycznych praktykantow 🫡🫡🫡🫡
             </p>
         </article>
-
-        <section>
+        <div id="gifcior" class="container-fluid p-5 bg-dark text-center">
+            <img src="banan.gif"/>
+        </div>
+        <section class="container-fluid p-5 bg-dark text-white text-center">
             <form name="super_formularz" action="" onsubmit="waliduj()">
                 <!-- Nienawidze html!!! label label label label-->
-                <label>Imie: 
-                    <input type="text" name="imie"/>
-                </label> <br>
-                <label>Nazwisko: 
-                    <input type="text" name="nazwisko"/>
-                </label> <br>
-                <label>Data ur:
-                    <input type="date" name="data_urodzenia"/>
-                </label> <br>
 
-                Plec:
-                <label>
-                    <input type="radio" name="plec" checked="true">Mezczyzna</input>
-                </label>
+                <div class="mb-3 mt-3">
+                    <label>Imie: 
+                        <input type="text" class="form-control" name="imie"/>
+                    </label>
+                </div>
+                <div class="mb-3 mt-3">
+                    <label>Nazwisko: 
+                        <input type="text" class="form-control" name="nazwisko"/>
+                    </label>
+                </div>
+                <div class="mb-3 mt-3">
+                    <label>Data ur:
+                        <input type="date" class="form-control"name="data_urodzenia"/>
+                    </label> 
+                </div>
+                <div class="mb-3 mt-3">
+                    Plec:<br>
+                    <label>
+                        <input type="radio" class="form-check-input" name="plec">Mezczyzna</input>
+                    </label>
+                
+                    <label>
+                        <input type="radio" class="form-check-input" name="plec">Kobieta</input>
+                    </label> 
+                </div>
+                <div class="mb-3 mt-3 display-flex">
+                    <label>Ulubiony kolor:
+                        <input type="color" class="form-control " name="ulubiony_kolor"/> 
+                    </label>
+                        
+                        
+                </div>
+                    <input type="submit" class="btn btn-light" value="wyslij"/>
 
-                <label>
-                    <input type="radio" name="plec">Kobieta</input>
-                </label> <br>
-
-                <label>Ulubiony kolor:
-                    <input type="color" name="ulubiony_kolor"/> 
-                </label> <br>
-
-                <input type="submit" value="wyslij"/>
             </form>
+            
         </section>
-        <footer>stoper</footer>
+        <footer class="footer bg-dark text-white py-1 text-center">
+            Dariusz Zielonka, Wojciech Umiński, Kamil Tyrała
+        </footer>
     </body> 
 </html>
