@@ -31,10 +31,8 @@ function waliduj() {
 
                 generic = `Nieprawidłowa ${nazwa.replace("_"," ")}`
 
-                alert(wejscie)
-
                 // fajne przypomnienie regexa ale prawdopodobnie nie działa
-                // string musi być zestawem 3 liczb odzielonych minusami, z tego pierwsza
+                // string musi być zestawem 3 liczb odzielonych myślnikami, z tego pierwsza
                 // nie może być dłuższa niż 4 cyfry a dwie następne niż 2
                 if (/[0-9]{1,4}[-][0-9]{1,2}[-][0-9]{1,2}$/.test(wejscie)) {
 
