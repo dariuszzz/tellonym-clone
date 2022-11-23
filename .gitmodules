@@ -1,0 +1,3 @@
+[submodule "tellonym-clone-backend"]
+	path = tellonym-clone-backend
+	url = https://github.com/dariuszzz/tellonym-clone-backend
