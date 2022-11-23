@@ -25,4 +25,5 @@ wlasne api
 (2p) lajkowanie/dislikeowanie pytan/odpowiedzi
 (2p) edytowanie odpowiedzi
 (2p) statystyki 
+(1p) wlasne api
 ```
