@@ -2,7 +2,7 @@
 
 Mozna zadawac anonimowe pytania innym osobom ktore sie potem wyswietlaja tej osobie i moze ona na nie odpowiedziec
 wlasne api
-
+```
 (1p) jakies logowanie/tworzenie konta
 (1p) wyszukiwanie kont innych osob
 (1p) followowanie innych osob
@@ -25,3 +25,4 @@ wlasne api
 (2p) lajkowanie/dislikeowanie pytan/odpowiedzi
 (2p) edytowanie odpowiedzi
 (2p) statystyki 
+```
