@@ -1,6 +1,6 @@
 # Klon tellonym
 
-Mozna zadawac anonimowe pytania innym osobom ktore sie potem wyswietlaja tej osobie i moze ona na nie odpowiedziec
+Mozna zadawac anonimowe pytania innym osobom ktore sie potem wyswietlaja tej osobie i moze ona na nie odpowiedziec\
 wlasne api
 ```
 (1p) jakies logowanie/tworzenie konta
