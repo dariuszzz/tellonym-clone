@@ -1,5 +1,5 @@
 import './index.css'
-import { setupCounter } from './counter'
+//import { setupCounter } from './counter'
 import { login_and_print_logged_user } from './fetchexample'
 
 
