@@ -11,7 +11,7 @@ export const validatePassword = (input: string) => {
     errors += input.match(/[A-Z]/g) || input.match(/[a-z]/g)?
     "<br>- Pryznajmniej jedna wielka i mała litera" : ""
 
-    return errors != ""? `Twoje hasło nie spełnia następujących zasad:`:""
+    return errors != ""? `Twoje hasło nie spełnia następujących zasad:${errors}`:""
 
 }
 
@@ -22,6 +22,6 @@ export const validateLogin = (input: string) => {
     errors += input.length > 8?
     "<br>- Pryznajmniej 4 litery" : ""
 
-    return errors != ""? `Twój login nie spełnia następujących zasad:`:""
+    return errors != ""? `Twój login nie spełnia następujących zasad:${errors}`:""
 
 }
