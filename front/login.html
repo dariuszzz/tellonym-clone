@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="public/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Unidentified :)</title>
+  </head>
+  <body class="bg-slate-200 m-0 p-0">
+    <nav class="navbar navbar-default navbar-fixed-top shadow-sm bg-slate-50 m-0 p-1">
+      <ul class="flex flex-row justify-center gap-24 items-center my-2">
+        <li><a href="index.html"><svg class="fill-slate-500" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M6.05 19h2.725v-6.275h6.45V19h2.725v-8.95L12 5.575 6.05 10.05ZM3.9 21.15V8.975L12 2.9l8.1 6.075V21.15h-7.025v-6.275h-2.15v6.275ZM12 12.3Z"/></svg></svg></a></li>
+        <li><a href="search.html"><svg class="fill-slate-900" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="m19.775 21.225-6.35-6.325q-.75.6-1.837.938-1.088.337-2.138.337-2.825 0-4.775-1.95-1.95-1.95-1.95-4.775 0-2.8 1.95-4.763 1.95-1.962 4.775-1.962 2.8 0 4.75 1.95 1.95 1.95 1.95 4.775 0 1.1-.312 2.125-.313 1.025-.913 1.8l6.35 6.35Zm-10.325-7.2q1.925 0 3.238-1.325Q14 11.375 14 9.45T12.688 6.2Q11.375 4.875 9.45 4.875q-1.95 0-3.262 1.325-1.313 1.325-1.313 3.25t1.313 3.25Q7.5 14.025 9.45 14.025Z"/></svg></a></li>
+        <li><a href="profile.html"><svg class="fill-slate-500" xmlns="http://www.w3.org/2000/svg" height="24" width="24"><path d="M12 12.4q-1.6 0-2.712-1.113Q8.175 10.175 8.175 8.6V5.175q0-.575.413-1Q9 3.75 9.6 3.75q.4 0 .7.162.3.163.5.488.2-.325.512-.488.313-.162.688-.162.375 0 .688.162.312.163.512.488.2-.325.5-.488.3-.162.675-.162.625 0 1.038.425.412.425.412 1V8.6q0 1.575-1.112 2.687Q13.6 12.4 12 12.4Zm0-2.15q.7 0 1.188-.5.487-.5.487-1.175V6.4h-3.35v2.175q0 .675.487 1.175.488.5 1.188.5ZM3.75 21.825v-3q0-.9.45-1.637.45-.738 1.225-1.138 1.575-.8 3.225-1.2 1.65-.4 3.35-.4 1.675 0 3.338.4 1.662.4 3.237 1.2.775.4 1.225 1.138.45.737.45 1.637v3Zm2.15-2.15h12.2v-.85q0-.3-.125-.5t-.35-.325q-1.325-.625-2.775-1.012Q13.4 16.6 12 16.6q-1.4 0-2.85.375Q7.7 17.35 6.375 18q-.225.1-.35.312-.125.213-.125.513Zm6.1 0ZM12 6.4Z"/></svg></a></li>
+    </ul>
+    </nav>
+    <div id="wrapper" class="w-100 h-full m-0 mt-5 flex flex-col items-center justify-center">
+        <div id="profile-card" class="w-5/6 2xl:w-2/6 xl:w-3/6 lg:w-3/6 md:w-5/7 sm:w-4/5 h-96 bg-slate-100 rounded-md flex flex-col justify-center items-center">
+            <input type="text" id="login" class="h-10 rounded-lg w-2/3 indent-3" placeholder="Username">
+            <input type="password" id="password" class="h-10 rounded-lg w-2/3 indent-3 mt-10" placeholder="Password">
+            <div id="options" class="w-2/3 mt-10 flex justify-between items-center">
+                <a href="register.html"><span class="text-blue-600 underline">Don't have an account? Register here.</span> </a>
+                <button onclick="location.href='register.html'" type="button" class="h-10 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">Login</button>
+            </div>
+    </div>
+    
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>

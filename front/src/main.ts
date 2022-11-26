@@ -1,6 +1,6 @@
 import './index.css'
 import { setupCounter } from './counter'
-import { fetch_api, login_and_print_logged_user } from './fetchexample'
+import { login_and_print_logged_user } from './fetchexample'
 
 
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
