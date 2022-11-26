@@ -1,6 +1,10 @@
 import './index.css'
-import { setupCounter } from './counter'
+//import { setupCounter } from './counter'
 import { login_and_print_logged_user } from './fetchexample'
+import { fetch_api } from './fetchexample';
+import { login } from './login';
+import { register } from './register';
+
 
 
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
@@ -18,4 +22,20 @@ let users = await fetch_api(
 .then(res => res.json())
 .catch(() => console.error("?"));
 
+
+const loginButton  = document.getElementById('log');
+if (loginButton != null) {
+    loginButton.addEventListener('click', () => {
+        login(token);
+    })
+}
+
+const registerButton = document.getElementById('registerButton');
+if(registerButton != null){
+    registerButton.addEventListener('click', () => {
+        register(token)
+    })
+}
+
 console.log(users);
+
