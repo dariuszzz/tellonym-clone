@@ -28,7 +28,7 @@ export const login_and_print_logged_user = async (username: string, password: st
 
     //fetch currently logged in user
     let user = await fetch_api(
-        "/user",
+        "/me",
         "GET",
         undefined,
         token ?? undefined

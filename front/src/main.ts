@@ -9,6 +9,7 @@ import { register } from './register';
 
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
 let token = { token: "" };
+let token = new AccessToken();
 
 
 login_and_print_logged_user("test", "test", token);
