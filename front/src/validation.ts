@@ -1,27 +1,49 @@
 export const validatePassword = (input: string) => {
 
-    let errors = ""
+    if (input = "") {
 
-    errors += input.length > 8?
-    "<br>- Pryznajmniej 8 liter" : ""
+        return "Pole wymagane"
 
-    errors += input.match(/\d/g)?
-    "<br>- Pryznajmniej jedna cyfra" : ""
+    } else {
 
-    errors += input.match(/[A-Z]/g) || input.match(/[a-z]/g)?
-    "<br>- Pryznajmniej jedna wielka i mała litera" : ""
+        let errors = ""
 
-    return errors != ""? `Twoje hasło nie spełnia następujących zasad:${errors}`:""
+        errors += input.length > 8?
+        "" : "<br>- Pryznajmniej 8 liter"
+    
+        errors += input.match(/\d/g)?
+        "" : "<br>- Pryznajmniej jedna cyfra" 
+    
+        errors += !input.match(/[^\d\w]/g)?
+        "" : "<br>- Niedozwolone są znaki specialne" 
+    
+        errors += input.match(/[A-Z]/g) && input.match(/[a-z]/g)?
+        "" : "<br>- Pryznajmniej jedna wielka i mała litera"
+    
+        return errors != ""? `Twoje hasło nie spełnia następujących zasad:${errors}`:""
+
+    }
 
 }
 
 export const validateLogin = (input: string) => {
 
-    let errors = ""
+    if (input = "") {
 
-    errors += input.length > 8?
-    "<br>- Pryznajmniej 4 litery" : ""
+        return "Pole wymagane"
 
-    return errors != ""? `Twój login nie spełnia następujących zasad:${errors}`:""
+    } else {
+
+        let errors = ""
+
+        errors += input.length > 8?
+        "" : "<br>- Pryznajmniej 4 litery"
+    
+        errors += !input.match(/[^\d\w]/g)?
+        "" : "<br>- Niedozwolone są znaki specialne" 
+    
+        return errors != ""? `Twój login nie spełnia następujących zasad:${errors}`:""
+
+    }
 
 }
