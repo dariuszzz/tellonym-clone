@@ -24,9 +24,11 @@ export const login_and_print_logged_user = async (username: string, password: st
     .then(res => res.text())
     .catch(() => console.error("Problem with logging in")) ?? "";    
 
+    
+
     //fetch currently logged in user
     let user = await fetch_api(
-        "/user",
+        "/me",
         "GET",
         undefined,
         token ?? undefined
@@ -35,4 +37,15 @@ export const login_and_print_logged_user = async (username: string, password: st
     .catch(() => console.error("Not logged in"));
 
     console.log(user)
+}
+
+export const registerUser = async (username: string, password: string, token: AccessToken) => {
+    token.token = await fetch_api(
+        "/register", 
+        "POST", 
+        { username, password },
+    )
+    .then(res => res.text())
+    .catch(() => console.error("Problem with registering")) ?? "";
+    
 }

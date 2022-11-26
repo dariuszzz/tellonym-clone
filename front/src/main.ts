@@ -1,21 +1,42 @@
 import './index.css'
-import { setupCounter } from './counter'
-import { fetch_api, login_and_print_logged_user } from './fetchexample'
+//import { setupCounter } from './counter'
+import { login_and_print_logged_user } from './fetchexample'
+import { fetch_api } from './fetchexample';
+import { login } from './login';
+import { register } from './register';
+import {AccessToken} from './types';
+
 
 
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
-let token = { token: "" };
+let token = new AccessToken();
 
 
-login_and_print_logged_user("test", "test", token);
+//await login_and_print_logged_user("test", "test", token);
 
-let users = await fetch_api(
-    "/users",
-    "GET",
-    undefined,
-    token ?? undefined
-)
-.then(res => res.json())
-.catch(() => console.error("?"));
+// let users = await fetch_api(
+//     "/users",
+//     "GET",
+//     undefined,
+//     token ?? undefined
+// )
+// .then(res => res.json())
+// .catch(() => console.error("?"));
 
-console.log(users);
+
+const loginButton  = document.getElementById('log');
+if (loginButton != null) {
+    loginButton.addEventListener('click', () => {
+        login(token);
+    })
+}
+
+const registerButton = document.getElementById('registerButton');
+if(registerButton != null){
+    registerButton.addEventListener('click', () => {
+        register(token)
+    })
+}
+
+// console.log(users);
+
