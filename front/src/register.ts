@@ -1,7 +1,7 @@
 import {registerUser} from './fetchexample';
 import { AccessToken } from './types';
 
-export function register (token : AccessToken) {
+export const register = (token : AccessToken) => {
     const usernameInput = <HTMLInputElement>document.getElementById('login');
     const passwordInputOne = <HTMLInputElement>document.getElementById('tryFirstPassword');
     const passwordInputTwo = <HTMLInputElement>document.getElementById('trySecondPassword');
