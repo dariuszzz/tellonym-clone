@@ -1,5 +1,9 @@
 import { AccessToken } from "./types";
 
+
+
+// Wrapper do fetcha ktory fetchuje nowy token jezeli stary sie juz skonczyl
+// dzieki temu nie wylogowywuje po przejsciu miedzy stronami :)))))
 export const fetch_api = async (
     route: string, 
     method: string, 
@@ -40,9 +44,7 @@ export const fetch_api = async (
         })
     }
 
-
     return result;
-
 }
 
 export const login_and_print_logged_user = async (username: string, password: string, token: AccessToken) => {

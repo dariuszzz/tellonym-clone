@@ -2,7 +2,7 @@ import {login_and_print_logged_user} from './fetchexample';
 import { AccessToken } from './types';
 
 
-export function login (token : AccessToken) {
+export const login = (token : AccessToken) => {
     const usernameInput = <HTMLInputElement>document.getElementById('login');
     const passwordInput = <HTMLInputElement>document.getElementById('password');
     if(usernameInput != null && passwordInput != null){
