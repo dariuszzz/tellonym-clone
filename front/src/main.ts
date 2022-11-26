@@ -5,6 +5,7 @@ import { login_and_print_logged_user } from './fetchexample'
 
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
 let token = { token: "" };
+let token = new AccessToken();
 
 
 login_and_print_logged_user("test", "test", token);
