@@ -1,4 +1,4 @@
-import {registerUser} from './fetchexample';
+import {registerUser} from './utils';
 import { AccessToken } from './types';
 
 export const register = (token : AccessToken) => {

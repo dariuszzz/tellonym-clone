@@ -1,18 +1,13 @@
 import './index.css'
 import { AccessToken } from "./types";
-import { fetch_api } from './fetchexample';
+import { fetch_api } from './utils';
 import { getAndSetUserData } from './profile';
 
-let token = new AccessToken();
+const token = new AccessToken();
 
-let user = await fetch_api(
-    "/me",
-    "GET",
-    undefined,
-    token
-)
-.then(res => res.json())
-.then(console.log)
-.catch(() => console.error("?"));
+const url_params = new URLSearchParams(window.location.search);
+const profile = url_params.get("id");
 
-await getAndSetUserData(token);
+const profile_id: number | undefined  = profile ? parseInt(profile) : undefined;
+
+await getAndSetUserData(token, profile_id);

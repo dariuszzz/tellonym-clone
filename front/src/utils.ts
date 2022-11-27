@@ -1,12 +1,14 @@
-import { AccessToken } from "./types";
+import { AccessToken, AnswerData, AskData, LoginData, VoteData } from "./types";
 
 const SERVER_URL = "http://127.0.0.1:8000";
+
+type ApiInputJSONs = LoginData | AskData | AnswerData | VoteData;
 
 //Doesnt try to refresh token after an unauthorized request
 export const fetch_api_raw = async (
     route: string, 
-    method: string, 
-    json: object | undefined = undefined,
+    method: "POST" | "GET", 
+    json: ApiInputJSONs | undefined = undefined,
     access_token: AccessToken | undefined = undefined,
 ) => fetch(`${SERVER_URL}${route}`, {
     ...(json && { body: JSON.stringify(json) }),
@@ -21,8 +23,8 @@ export const fetch_api_raw = async (
 //Fetch wrapper which automatically tries to refresh the access token on unauthorized requests
 export const fetch_api = async (
     route: string, 
-    method: string, 
-    json: object | undefined = undefined,
+    method: "POST" | "GET", 
+    json: ApiInputJSONs | undefined = undefined,
     access_token: AccessToken | undefined = undefined, 
 ) => {
     let result = await fetch_api_raw(route, method, json, access_token);
@@ -59,7 +61,7 @@ export const login_and_print_logged_user = async (username: string, password: st
         "/me",
         "GET",
         undefined,
-        token ?? undefined
+        token
     )
     .then(res => res.json())
     .catch(() => console.error("Not logged in"));

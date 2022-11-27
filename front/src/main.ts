@@ -1,30 +1,11 @@
 import './index.css'
-//import { setupCounter } from './counter'
-import { login_and_print_logged_user } from './fetchexample'
-import { fetch_api } from './fetchexample';
+import { fetch_api } from './utils';
 import { login } from './login';
 import { register } from './register';
 import { AccessToken } from './types';
 import { searchForPeople } from './searchForProfiles';
 
-
-
-// setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
-let token = new AccessToken();
-
-
-// await login_and_print_logged_user("test", "test", token);
-
-let user = await fetch_api(
-    "/me",
-    "GET",
-    undefined,
-    token
-)
-.then(res => res.json())
-.then(console.log)
-.catch(() => console.error("?"));
-
+const token = new AccessToken();
 
 const loginButton  = document.getElementById('log');
 if (loginButton != null) {
