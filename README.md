@@ -19,9 +19,9 @@ wlasne api
 (2p) sortowanie pytan po ilosci lajkow
 (1p) zadawanie pytan innym osobom
 (2p) modyfikowanie profilu
-	(0.33p) - zmiana nicku
-	(0.33p) - zmiana opisu profilu
-	(0.33p) - zmiana hasla
+	(0.66p) - zmiana nicku
+	(0.66p) - zmiana opisu profilu
+	(0.66p) - zmiana hasla
 (2p) lajkowanie/dislikeowanie pytan/odpowiedzi
 (2p) edytowanie odpowiedzi
 (2p) statystyki 
