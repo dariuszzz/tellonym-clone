@@ -1,12 +1,12 @@
 import './index.css'
 //import { setupCounter } from './counter'
-import { login_and_print_logged_user } from './fetchexample'
-import { fetch_api } from './fetchexample';
+//import { login_and_print_logged_user } from './fetchexample'
+// import { fetch_api } from './fetchexample';
 import { login } from './login';
 import { register } from './register';
 import { AccessToken } from './types';
 import { searchForPeople } from './searchForProfiles';
-
+import { constructPost } from './homePostDisplay'
 
 
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
@@ -15,15 +15,15 @@ let token = new AccessToken();
 
 // await login_and_print_logged_user("test", "test", token);
 
-let user = await fetch_api(
-    "/me",
-    "GET",
-    undefined,
-    token
-)
-.then(res => res.json())
-.then(console.log)
-.catch(() => console.error("?"));
+// let user = await fetch_api(
+//     "/me",
+//     "GET",
+//     undefined,
+//     token
+// )
+// .then(res => res.json())
+// .then(console.log)
+// .catch(() => console.error("?"));
 
 
 const loginButton  = document.getElementById('log');
@@ -47,4 +47,10 @@ if(searchButton != null){
     searchButton.addEventListener('click', () => {
         searchForPeople(token);
     })
+}
+
+if (document.location.pathname == "/index.html") { // okropny, OKROPNY sposób żeby to zdrobić ale narazie dnc
+    // giga funkcja alert!!!1
+    constructPost("wrapper","co tam jak tam?","a nic super","kolega","spoko ziomek",1,2,"27.11.2022","28.11.2022");
+    constructPost("wrapper","gnidfghdsfoighi","co","kolega","spoko ziomek",1,2,"27.11.2022","28.11.2022");
 }
