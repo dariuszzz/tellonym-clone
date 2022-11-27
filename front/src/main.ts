@@ -5,6 +5,7 @@ import { fetch_api } from './fetchexample';
 import { login } from './login';
 import { register } from './register';
 import { AccessToken } from './types';
+import { searchForPeople } from './searchForProfiles';
 
 
 
@@ -41,3 +42,9 @@ if(registerButton != null){
 
 // console.log(users);
 
+const searchButton = document.getElementById('search');
+if(searchButton != null){
+    searchButton.addEventListener('click', () => {
+        searchForPeople(token);
+    })
+}
