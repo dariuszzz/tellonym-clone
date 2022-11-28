@@ -9,7 +9,7 @@ import './index.css'
 import { login } from './login';
 import { register } from './register';
 import { AccessToken } from './types';
-import { searchForPeople } from './searchForProfiles';
+import { searchForPeople } from './search';
 import { constructPost } from './homePostDisplay'
 
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
@@ -44,12 +44,6 @@ if(registerButton != null){
 
 // console.log(users);
 
-const searchButton = document.getElementById('search');
-if(searchButton != null){
-    searchButton.addEventListener('click', () => {
-        searchForPeople(token);
-    })
-}
 
 if (document.location.pathname == "/index.html") { // okropny, OKROPNY sposób żeby to zdrobić ale narazie dnc
     // giga funkcja alert!!!1
