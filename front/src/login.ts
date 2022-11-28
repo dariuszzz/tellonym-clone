@@ -1,4 +1,4 @@
-import {login_and_print_logged_user} from './utils';
+import {log_in} from './utils';
 import { AccessToken } from './types';
 
 
@@ -8,7 +8,7 @@ export const login = (token : AccessToken) => {
     if(usernameInput != null && passwordInput != null){
         const username = usernameInput.value;
         const password = passwordInput.value;
-        return login_and_print_logged_user(username, password, token);
+        return log_in(username, password, token);
     }
     else{
         return("dupa");

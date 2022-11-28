@@ -9,7 +9,6 @@ import './index.css'
 import { login } from './login';
 import { register } from './register';
 import { AccessToken } from './types';
-import { searchForPeople } from './search';
 import { constructPost } from './homePostDisplay'
 
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)

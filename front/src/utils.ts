@@ -75,38 +75,36 @@ export const edit_profile_data = async (access_token: AccessToken, form_data: Fo
     return result;
 }
 
-export const login_and_print_logged_user = async (username: string, password: string, token: AccessToken) => {
+export const log_in = async (username: string, password: string, token: AccessToken) => {
     //login user example
-    token.token = await fetch_api(
+    await fetch_api(
         "/login", 
         "POST", 
         { username, password },
     )
     .then(res => res.text())
-    .catch(() => console.error("Problem with logging in")) ?? "";    
-
-    
-
-    //fetch currently logged in user
-    let user = await fetch_api(
-        "/me",
-        "GET",
-        undefined,
-        token
-    )
-    .then(res => res.json())
-    .catch(() => console.error("Not logged in"));
-
-    console.log(user)
+    .then(res => token.token = res)
+    .catch(() => console.error("Problem with logging in"))
 }
 
 export const registerUser = async (username: string, password: string, token: AccessToken) => {
-    token.token = await fetch_api(
+    await fetch_api(
         "/register", 
         "POST", 
         { username, password },
     )
     .then(res => res.text())
+    .then(res => token.token = res)
     .catch(() => console.error("Problem with registering")) ?? "";
     
+}
+
+export const follow_user = async (user_id: number, token: AccessToken) => {
+    await fetch_api(
+        `/users/${user_id}/follow`,
+        "POST",
+        undefined,
+        token,
+    ).then(res => res.json())
+    .catch(() => console.error());
 }

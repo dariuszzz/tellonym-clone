@@ -1,7 +1,5 @@
 import { AccessToken, User, UserWithLikes } from "./types";
-import { fetch_api, SERVER_URL } from "./utils";
-
-import { followUser} from "./follow";
+import { fetch_api, SERVER_URL, follow_user } from "./utils";
 
 
 export const getAndSetUserData = async (token: AccessToken, profile_id: number | undefined) => {
@@ -13,8 +11,9 @@ export const getAndSetUserData = async (token: AccessToken, profile_id: number |
     if (profile_id) {
         if(profileButton != null) {
             profileButton.innerHTML = 'Follow';
-            profileButton.onclick = () =>{
-                followUser(token, profile_id);
+            profileButton.onclick = async () =>{
+                await follow_user(profile_id, token);
+                await getAndSetUserData(token, profile_id);
             }
         }
         user = await fetch_api(
