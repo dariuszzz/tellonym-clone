@@ -44,13 +44,15 @@ export const getAndSetUserData = async (token: AccessToken, profile_id: number |
     const follower_count = user.follower_count;
     const following_count = user.following_count;
     const finalStats : string = `${follower_count} followers | 0 tells | ${following_count} following`;
+    const bio : string = user.bio;
 
     const nicknameField = document.getElementById('nickname');
     const stats = document.getElementById('stats');
-
-    if(nicknameField != null && stats != null) {
+    const bioField = document.getElementById('bio');
+    if(nicknameField != null && stats != null && bioField != null){
         nicknameField.innerHTML = nickname;
         stats.innerHTML = finalStats;
+        bioField.innerHTML = bio;
     }
 }
 
