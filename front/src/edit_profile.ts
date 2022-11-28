@@ -1,8 +1,20 @@
 import "./index.css"
-import { AccessToken } from "./types";
-import { edit_profile_data } from "./utils";
+import { AccessToken, UserWithLikes } from "./types";
+import { edit_profile_data, fetch_api } from "./utils";
 
 const token = new AccessToken();
+
+const my_user: UserWithLikes | undefined = await fetch_api(
+    "/me",
+    "GET",
+    undefined,
+    token
+).then(res => res.json())
+.catch(err => undefined)
+
+//redirect na login jak nie ma usera
+if (!my_user) window.location.href = `${window.location.origin}/login.html`
+
 
 const edit_profile_form = <HTMLFormElement>document.getElementById('editProfileForm')!;
 

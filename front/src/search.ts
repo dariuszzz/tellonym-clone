@@ -98,6 +98,7 @@ const searchForPeople = () => {
 
             let followed: boolean | undefined = undefined;
             if (my_user) followed  = follow_map.get(user.id)!;
+            if (my_user && user.id == my_user.user.id) return;
 
             let searchResult = constructElement(user, followed);
             wrapperForInsertion.prepend(searchResult);
