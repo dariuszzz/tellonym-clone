@@ -50,6 +50,16 @@ export const postLikeUpdate = (postNumber:number, question: boolean, like: boole
 
         }
 
+        const onLike = () => {
+
+        }
+        if (changedState == 1) {onLike()}
+    
+        const onDislike = () => {
+
+        }
+        if (changedState == -1) {onDislike()}
+
     }
 
 }
