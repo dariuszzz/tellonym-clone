@@ -1,8 +1,11 @@
 import './index.css'
+
+// prawdopodobnie useless
 //import { setupCounter } from './counter'
 //import { login_and_print_logged_user } from './fetchexample'
 //import { fetch_api } from './fetchexample';
-import { fetch_api } from './utils';
+
+//import { fetch_api } from './utils';
 import { login } from './login';
 import { register } from './register';
 import { AccessToken } from './types';
