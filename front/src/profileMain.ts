@@ -1,6 +1,6 @@
 import './index.css'
 import { AccessToken } from "./types";
-import { fetch_api } from './utils';
+//import { fetch_api } from './utils';
 import { getAndSetUserData } from './profile';
 
 const token = new AccessToken();
