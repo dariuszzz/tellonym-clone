@@ -108,3 +108,13 @@ export const follow_user = async (user_id: number, token: AccessToken) => {
     ).then(res => res.json())
     .catch(() => console.error());
 }
+
+export const ask_question = async ( question : AskData, user_id : number, token: AccessToken) => {
+    await fetch_api(
+        `/users/${user_id}/ask`,
+        "POST",
+        question,
+        token,
+    ).then(res => res.json())
+    .catch(() => console.error());
+}
