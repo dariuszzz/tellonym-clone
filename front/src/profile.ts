@@ -55,13 +55,15 @@ if (profile_id && (profile_id != my_user?.user.id)) {
     
     
      if(askButton != null){
-        askButton.onclick = () => {
+        askButton.onclick = async () => {
             const question : AskData = {
                 anonymous : isAnonymous.checked,
                 content : questionBody.value,
             };
             if(profile_id != undefined){
-                ask_question(question, profile_id, token);
+                await ask_question(question, profile_id, token);
+                await getAndSetUserData();
+                questionBody.value = "";
             }
         }   
     }
@@ -87,28 +89,36 @@ const getAndSetUserData = async () => {
         `/users/${profile_id}`,
         "GET",
         ).then(res => res.json())
-        .catch(() => console.error());
+        .catch(console.error);
+    
+    const tellCount = await fetch_api(
+        `/users/${profile_id}/questions`,
+        "GET",
+        ).then(res => res.json())
+         .then(res => res.length)
+        .catch(console.error);
         
         
-        const profile_pic = <HTMLImageElement>document.getElementById("profilepic");
-        if (profile_pic) {
-            profile_pic.src = `${SERVER_URL}/pfps/${user.id}.png`
-        }
-        
-        const nickname = user.username;
-        const follower_count = user.follower_count;
-        const following_count = user.following_count;
-        const finalStats : string = `${follower_count} followers | 0 tells | ${following_count} following`;
-        const bio : string = user.bio;
-        
-        const nicknameField = document.getElementById('nickname');
-        const stats = document.getElementById('stats');
-        const bioField = document.getElementById('bio');
-        if(nicknameField != null && stats != null && bioField != null){
-            nicknameField.innerHTML = nickname;
-            stats.innerHTML = finalStats;
-            bioField.innerHTML = bio;
-        }
+    const profile_pic = <HTMLImageElement>document.getElementById("profilepic");
+    if (profile_pic) {
+        profile_pic.src = `${SERVER_URL}/pfps/${user.id}.png`
+    }
+            
+    const nickname = user.username;
+    const follower_count = user.follower_count;
+    const following_count = user.following_count;
+    const finalStats : string = `${follower_count} followers | ${tellCount} tells | ${following_count} following`;
+    const bio : string = user.bio;
+            
+    const nicknameField = document.getElementById('nickname');
+    const stats = document.getElementById('stats');
+    const bioField = document.getElementById('bio');
+
+    if(nicknameField != null && stats != null && bioField != null){
+        nicknameField.innerHTML = nickname;
+        stats.innerHTML = finalStats;
+        bioField.innerHTML = bio;
+    }
 }
 
 //set userdata on load
