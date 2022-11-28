@@ -18,32 +18,25 @@ const constructElement = (user: User, followed: boolean) => {
     const searchResult = document.createElement("div");
     searchResult.classList.add("searchResult", "flex", "flex-row", "cursor-pointer", "bg-slate-100", "hover:bg-blue-100", "w-full", "items-center", "justify-between", "h-28", "p-2", "px-5", "rounded-md");
 
+    const unfollow_styles = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
+    const follow_styles = "btn-primary after:content-['Follow']";
+
+    const btn_function = function (this: HTMLButtonElement, ev: MouseEvent) {
+        follow_user(user.id, token);
+        this.classList.value = this.classList.value == follow_styles ? unfollow_styles : follow_styles;
+    }
+
     const followButton = document.createElement("button");
     if (followed === true) {
-        followButton.classList.add("btn-secondary", "hover:border-red-400", "hover:text-red-400", "hover:after:content-['Unfollow']", "after:content-['Following']");
-        followButton.addEventListener("click",  function (e) {
-            if (e.target !== this)
-                return;
-
-            follow_user(user.id, token);
-            this.classList.value = "btn-primary after:content-['Follow']";
-        })
+        followButton.classList.value = unfollow_styles;
+        followButton.addEventListener("click", btn_function)
     } else if (followed === false) {
-        followButton.classList.add("btn-primary", "after:content-['Follow']");
-        followButton.addEventListener("click",  function (e) {
-            if (e.target !== this)
-                return;
-
-            follow_user(user.id, token);
-            this.classList.value = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
-        })
+        followButton.classList.value = follow_styles;
+        followButton.addEventListener("click", btn_function)
     } else {
         followButton.classList.add("btn-primary", "after:content-['Follow']");
         followButton.setAttribute("disabled", "true");
-        followButton.addEventListener("click",  function (e) {
-            if (e.target !== this)
-                return;
-
+        followButton.addEventListener("click",  function () {
             window.location.href = `${window.location.origin}/login.html`
         })
     }
@@ -51,26 +44,27 @@ const constructElement = (user: User, followed: boolean) => {
 
     // <div class="searchResult flex flex-row bg-slate-100 w-full items-center justify-between h-28 p-2 px-5 rounded-md">
     const template = `
-        <div class="flex flex-row items-center gap-2 w-full h-full">
-            <div class="rounded-full overflow-hidden h-4/5 aspect-square">
+        <div class="flex flex-row items-center gap-2 w-full h-full pointer-events-none">
+            <div class="rounded-full overflow-hidden h-4/5 aspect-square pointer-events-none">
                 <img class="object-scale-down" src="http://127.0.0.1:8000/pfps/${user.id}.jpg">
             </div>
-            <div class="flex flex-col justify-between">
+            <div class="flex flex-col justify-between pointer-events-none">
                 <p><b>${user.username}</b></p>
                 <p>${user.bio}</p>
             </div>
         </div>
-        ${ followed ? 
-            `<button type="button" class="btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']"></button>`
-            :
-            `<button type="button" class="btn-primary after:content-['Follow']"></button>`
-        }`;
+        `;
     
     searchResult.innerHTML = template;
+    searchResult.appendChild(followButton);
+
     searchResult.addEventListener("click", function (e) {
+        if (e.target !== this)
+            return;
 
         window.location.href = `${window.location.origin}/profile.html?id=${user.id}`;
     })
+
     return searchResult;
 }
 
