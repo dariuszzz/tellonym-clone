@@ -109,30 +109,12 @@ export const follow_user = async (user_id: number, token: AccessToken) => {
     .catch(console.error);
 }
 
-// export const create_follow_button = (token: AccessToken, to_follow_id: number, initial_follow: boolean | undefined): HTMLButtonElement => {
-//     const followButton = document.createElement("button");
-
-//     const unfollow_styles = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
-//     const follow_styles = "btn-primary after:content-['Follow']";
-
-//     const btn_function = function (this: HTMLButtonElement, ev: MouseEvent) {
-//         follow_user(to_follow_id, token);
-//         this.classList.value = this.classList.value == follow_styles ? unfollow_styles : follow_styles;
-//     }
-
-//     if (initial_follow === true) {
-//         followButton.classList.value = unfollow_styles;
-//         followButton.addEventListener("click", btn_function)
-//     } else if (initial_follow === false) {
-//         followButton.classList.value = follow_styles;
-//         followButton.addEventListener("click", btn_function)
-//     } else {
-//         followButton.classList.add("btn-primary", "after:content-['Follow']");
-//         followButton.setAttribute("disabled", "true");
-//         followButton.addEventListener("click",  function () {
-//             window.location.href = `${window.location.origin}/login.html`
-//         })
-//     }
-
-//     return followButton;
-// }
+export const ask_question = async ( question : AskData, user_id : number, token: AccessToken) => {
+    await fetch_api(
+        `/users/${user_id}/ask`,
+        "POST",
+        question,
+        token,
+    )
+    .catch(() => console.error());
+}

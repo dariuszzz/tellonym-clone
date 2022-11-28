@@ -24,14 +24,14 @@
         <div id="stats" class="text-lg">0 followers | 0 tells | 0 following</div>
         <button type="button" id="importantProfileButton" class="h-10 bg-blue-500 hover:bg-blue-700 text-white py-2 px-2 rounded-full text-sm"></button>
         <div class="flex flex-col gap-2 w-3/4">
-          <textarea class="h-14 border-2 border-blue-500 rounded-md resize-none"> </textarea>
+          <textarea id="questionBody" class="h-14 border-2 border-blue-500 rounded-md resize-none"> </textarea>
           <div id="buttons" class="flex flex-row gap-5  justify-between">
             <label class="flex relative items-center cursor-pointer">
-              <input type="checkbox" value="" checked="true" class="sr-only peer">
+              <input type="checkbox" id="anonymousInput" value="" checked="true" class="sr-only peer">
               <div class="w-14 h-7 bg-gray-200 peer-focus:outline-none rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[4px] after:left-[4px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-6 after:w-6 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
               <span class="ml-3 text-sm font-medium text-slate-900">Anonymous post</span>
             </label>
-            <button type="button" class="h-8 w-14 bg-blue-500 hover:bg-blue-700 text-white px-2 rounded-full text-sm">Send</button> 
+            <button type="button" id="askButton" class="h-8 w-14 bg-blue-500 hover:bg-blue-700 text-white px-2 rounded-full text-sm">Send</button> 
           </div>
         </div>
       </div>
