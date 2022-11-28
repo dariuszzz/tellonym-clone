@@ -42,34 +42,38 @@ if (profile_id && (profile_id != my_user?.user.id)) {
             profileButton.classList.value = follow_styles;
             profileButton.onclick = btn_function;
         }
+
+        const askButton = document.getElementById('askButton');
+        const isAnonymous = <HTMLInputElement>document.getElementById('anonymousInput');
+        const questionBody = <HTMLInputElement>document.getElementById('questionBody');
+        
+        
+         if(askButton != null){
+            askButton.onclick = () => {
+                const question : AskData = {
+                    anonymous : isAnonymous.checked,
+                    content : questionBody.value,
+                };
+                if(profile_id != undefined){
+                    ask_question(question, profile_id, token);
+                }
+            }   
+        }
     } else {
+        document.querySelector("#askQuestion")?.remove();
+
         profileButton.classList.value = follow_styles + " disabled";
         profileButton.onclick = () => {
             window.location.href = `${window.location.origin}/login.html`
         }
     }
 
-    const askButton = document.getElementById('askButton');
-    const isAnonymous = <HTMLInputElement>document.getElementById('anonymousInput');
-    const questionBody = <HTMLInputElement>document.getElementById('questionBody');
-    
-    
-     if(askButton != null){
-        askButton.onclick = async () => {
-            const question : AskData = {
-                anonymous : isAnonymous.checked,
-                content : questionBody.value,
-            };
-            if(profile_id != undefined){
-                await ask_question(question, profile_id, token);
-                await getAndSetUserData();
-                questionBody.value = "";
-            }
-        }   
-    }
+
     
 
 } else if (my_user) { //Profil zalogowanego usera
+    document.querySelector("#askQuestion")?.remove();
+
     profile_id = my_user.user.id;
 
     profileButton.classList.value = "btn-primary after:content-['Edit_profile']";
@@ -79,6 +83,7 @@ if (profile_id && (profile_id != my_user?.user.id)) {
 
     
 } else { //niezalogowany profil usera
+    
     window.location.href = `${window.location.origin}/login.html`
 }
     
@@ -89,36 +94,28 @@ const getAndSetUserData = async () => {
         `/users/${profile_id}`,
         "GET",
         ).then(res => res.json())
-        .catch(console.error);
-    
-    const tellCount = await fetch_api(
-        `/users/${profile_id}/questions`,
-        "GET",
-        ).then(res => res.json())
-         .then(res => res.length)
-        .catch(console.error);
+        .catch(() => console.error());
         
         
-    const profile_pic = <HTMLImageElement>document.getElementById("profilepic");
-    if (profile_pic) {
-        profile_pic.src = `${SERVER_URL}/pfps/${user.id}.png`
-    }
-            
-    const nickname = user.username;
-    const follower_count = user.follower_count;
-    const following_count = user.following_count;
-    const finalStats : string = `${follower_count} followers | ${tellCount} tells | ${following_count} following`;
-    const bio : string = user.bio;
-            
-    const nicknameField = document.getElementById('nickname');
-    const stats = document.getElementById('stats');
-    const bioField = document.getElementById('bio');
-
-    if(nicknameField != null && stats != null && bioField != null){
-        nicknameField.innerHTML = nickname;
-        stats.innerHTML = finalStats;
-        bioField.innerHTML = bio;
-    }
+        const profile_pic = <HTMLImageElement>document.getElementById("profilepic");
+        if (profile_pic) {
+            profile_pic.src = `${SERVER_URL}/pfps/${user.id}.png`
+        }
+        
+        const nickname = user.username;
+        const follower_count = user.follower_count;
+        const following_count = user.following_count;
+        const finalStats : string = `${follower_count} followers | 0 tells | ${following_count} following`;
+        const bio : string = user.bio;
+        
+        const nicknameField = document.getElementById('nickname');
+        const stats = document.getElementById('stats');
+        const bioField = document.getElementById('bio');
+        if(nicknameField != null && stats != null && bioField != null){
+            nicknameField.innerHTML = nickname;
+            stats.innerHTML = finalStats;
+            bioField.innerHTML = bio;
+        }
 }
 
 //set userdata on load
