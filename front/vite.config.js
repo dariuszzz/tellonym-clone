@@ -12,6 +12,7 @@ export default defineConfig({
         search: resolve(__dirname, 'search.html'),
         login: resolve(__dirname, 'login.html'),
         register: resolve(__dirname, 'register.html'),
+        edit_profile: resolve(__dirname, 'edit_profile.html'),
       }
     }
   }

@@ -12,15 +12,16 @@ let profile_id: number | undefined = profile ? parseInt(profile) : undefined;
 
 const profileButton = document.getElementById("importantProfileButton")!;
 
-const my_user: UserWithLikes = await fetch_api(
+const my_user: UserWithLikes | undefined = await fetch_api(
     "/me",
     "GET",
     undefined,
     token
 ).then(res => res.json())
+.catch(err => undefined)
 
-// Profil innego usera
-if (profile_id && profile_id != my_user.user.id) {
+// Profil innego usera (zalogowany lub nie)
+if (profile_id && (profile_id != my_user?.user.id)) {
     const unfollow_styles = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
     const follow_styles = "btn-primary after:content-['Follow']";
     
@@ -30,18 +31,19 @@ if (profile_id && profile_id != my_user.user.id) {
         profileButton.classList.value = profileButton.classList.value == follow_styles ? unfollow_styles : follow_styles;
     }
     
-    const follow_map = await checkIfUserIsFollowed(my_user.user.id, [profile_id]);
-    const followed = follow_map.get(profile_id);
-    
-    if (followed === true) {
-        profileButton.classList.value = unfollow_styles;
-        profileButton.onclick = btn_function;
-    } else if (followed === false) {
-        profileButton.classList.value = follow_styles;
-        profileButton.onclick = btn_function;
+    if (my_user) {
+        const follow_map = await checkIfUserIsFollowed(my_user.user.id, [profile_id]);
+        const followed = follow_map.get(profile_id);
+        
+        if (followed === true) {
+            profileButton.classList.value = unfollow_styles;
+            profileButton.onclick = btn_function;
+        } else if (followed === false) {
+            profileButton.classList.value = follow_styles;
+            profileButton.onclick = btn_function;
+        }
     } else {
-        profileButton.classList.value = follow_styles;
-        profileButton.setAttribute("disabled", "true");
+        profileButton.classList.value = follow_styles + " disabled";
         profileButton.onclick = () => {
             window.location.href = `${window.location.origin}/login.html`
         }
@@ -65,7 +67,7 @@ if (profile_id && profile_id != my_user.user.id) {
     }
     
 
-} else { //Profil zalogowanego usera
+} else if (my_user) { //Profil zalogowanego usera
     profile_id = my_user.user.id;
 
     profileButton.classList.value = "btn-primary after:content-['Edit_profile']";
@@ -73,7 +75,9 @@ if (profile_id && profile_id != my_user.user.id) {
         window.location.href = `${window.location.origin}/edit_profile.html`
     }
 
-
+    
+} else { //niezalogowany profil usera
+    window.location.href = `${window.location.origin}/login.html`
 }
     
 

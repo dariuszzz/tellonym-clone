@@ -31,14 +31,16 @@ export const fetch_api = async (
 
     //Only if unauthorized (no token) and the token was passed in
     if (result.status == 401 && access_token) {
-        
-        access_token.token = await fetch_api_raw("/refresh", "POST")
-            .then(res => {
-                if (!res.ok) throw new Error("Not logged in")
-                else return res.text();
-            })
+        let refresh_res = await fetch_api_raw("/refresh", "POST")
+    
+        if (refresh_res.status == 401) {
+            return new Promise((_, rej) => rej("Need to log in"));
+        }
 
+        access_token.token = await refresh_res.text();
+        
         return await fetch_api_raw(route, method, json, access_token);
+
     }
 
     return result;
@@ -56,13 +58,15 @@ export const edit_profile_data = async (access_token: AccessToken, form_data: Fo
 
     if (result.status == 401 && access_token) {
         
-        access_token.token = await fetch_api_raw("/refresh", "POST")
-            .then(res => {
-                if (!res.ok) throw new Error("Not logged in")
-                else return res.text();
-            })
+        let refresh_res = await fetch_api_raw("/refresh", "POST")
+        
+        if (refresh_res.status == 401) {
+            return new Error("Not logged in");
+        }
 
-        return await fetch(`${SERVER_URL}/editprofile`, {
+        access_token.token = await refresh_res.text();
+        
+        return await  fetch(`${SERVER_URL}/editprofile`, {
             body: form_data,
             headers: {            
                 "Authorization": `Bearer: ${access_token.token}`,

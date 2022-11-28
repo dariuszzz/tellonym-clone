@@ -8,12 +8,13 @@ const token = new AccessToken();
 
 const searchButton = document.getElementById('search')!;
 
-const my_user: UserWithLikes = await fetch_api(
+const my_user: UserWithLikes | undefined = await fetch_api(
     "/me",
     "GET",
     undefined,
     token
 ).then(res => res.json())
+.catch(err => undefined )
 
 searchButton.onclick = (e) => {
     e.preventDefault();
@@ -21,7 +22,7 @@ searchButton.onclick = (e) => {
     searchForPeople();
 }
 
-const constructElement = (user: User, followed: boolean) => {
+const constructElement = (user: User, followed: boolean | undefined) => {
     const searchResult = document.createElement("div");
     searchResult.classList.add("searchResult", "flex", "flex-row", "cursor-pointer", "bg-slate-100", "hover:bg-blue-100", "w-full", "items-center", "justify-between", "h-28", "p-2", "px-5", "rounded-md");
 
@@ -43,7 +44,6 @@ const constructElement = (user: User, followed: boolean) => {
         followButton.addEventListener("click", btn_function)
     } else {
         followButton.classList.add("btn-primary", "after:content-['Follow']");
-        followButton.setAttribute("disabled", "true");
         followButton.addEventListener("click",  function () {
             window.location.href = `${window.location.origin}/login.html`
         })
@@ -90,11 +90,14 @@ const searchForPeople = () => {
         .forEach(el => el.remove());
         
         const sortedUsers = users.sort((user1: User, user2: User) => user1.username.length - user2.username.length);
-        const follow_map = await checkIfUserIsFollowed(my_user.user.id, sortedUsers.map((user: User) => user.id));
+        let follow_map: Map<number, boolean>;
+        
+        if (my_user) follow_map = await checkIfUserIsFollowed(my_user.user.id, sortedUsers.map((user: User) => user.id));
 
         sortedUsers.forEach((user: User) => {
 
-            let followed = follow_map.get(user.id)!;
+            let followed: boolean | undefined = undefined;
+            if (my_user) followed  = follow_map.get(user.id)!;
 
             let searchResult = constructElement(user, followed);
             wrapperForInsertion.prepend(searchResult);
