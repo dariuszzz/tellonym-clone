@@ -1,5 +1,5 @@
 import { AccessToken, User, UserWithLikes } from "./types";
-import { fetch_api } from "./utils";
+import { fetch_api, SERVER_URL } from "./utils";
 
 
 
@@ -24,6 +24,11 @@ export const getAndSetUserData = async (token: AccessToken, profile_id: number |
         .catch(() => console.error());
 
         user = my_user.user;        
+    }
+
+    const profile_pic = <HTMLImageElement>document.getElementById("profilepic");
+    if (profile_pic) {
+        profile_pic.src = `${SERVER_URL}/pfps/${user.id}.png`
     }
 
     const nickname = user.username;

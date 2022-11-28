@@ -1,6 +1,6 @@
 import { AccessToken, AnswerData, AskData, LoginData, VoteData } from "./types";
 
-const SERVER_URL = "http://127.0.0.1:8000";
+export const SERVER_URL = "http://127.0.0.1:8000";
 
 type ApiInputJSONs = LoginData | AskData | AnswerData | VoteData;
 
@@ -39,6 +39,37 @@ export const fetch_api = async (
             })
 
         return await fetch_api_raw(route, method, json, access_token);
+    }
+
+    return result;
+}
+
+export const edit_profile_data = async (access_token: AccessToken, form_data: FormData) => {
+    let result = await fetch(`${SERVER_URL}/editprofile`, {
+        body: form_data,
+        headers: {            
+            "Authorization": `Bearer: ${access_token.token}`,
+        },
+        credentials: "include",
+        method: "POST",
+    });
+
+    if (result.status == 401 && access_token) {
+        
+        access_token.token = await fetch_api_raw("/refresh", "POST")
+            .then(res => {
+                if (!res.ok) throw new Error("Not logged in")
+                else return res.text();
+            })
+
+        return await fetch(`${SERVER_URL}/editprofile`, {
+            body: form_data,
+            headers: {            
+                "Authorization": `Bearer: ${access_token.token}`,
+            },
+            credentials: "include",
+            method: "POST",
+        });
     }
 
     return result;
