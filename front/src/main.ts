@@ -53,17 +53,16 @@ if(registerButton != null){
 // }
 
 if (document.location.pathname == "/index.html") { // okropny, OKROPNY sposób żeby to zdrobić ale narazie dnc
-    const my_user: UserWithLikes | undefined = await fetch_api(
-        "/me",
-        "GET",
-        undefined,
-        token
-    )
-    .then(res => res.json())
-    .catch(console.error) 
-
-    alert(my_user?.user.id)
     
+    // const my_user: UserWithLikes | undefined = await fetch_api(
+    //     "/me",
+    //     "GET",
+    //     undefined,
+    //     token
+    // )
+    // .then(res => res.json())
+    // .catch(console.error) 
+
     // const posts: Array<QuestionWithAnswer> | undefined = await fetch_api(
     //     "/questions",
     //     "GET",
@@ -72,7 +71,6 @@ if (document.location.pathname == "/index.html") { // okropny, OKROPNY sposób �
     // )
     // .then(res => res.json())
     // .catch(console.error) 
-
 
     // constructPost("wrapper", testPost,testuser1, [testuser2,testuser3], likes);
 
