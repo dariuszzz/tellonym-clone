@@ -1,4 +1,3 @@
-
 export class AccessToken { 
     token: string = "";
 
@@ -47,3 +46,21 @@ export type UserWithLikes = {
     user: User,
     likes: Like[]
 };
+
+export type LoginData = {
+    username: string,
+    password: string,
+}
+
+export type AskData = {
+    anonymous: boolean,
+    content: string,
+}
+
+export type AnswerData = {
+    content: string,
+}
+
+export type VoteData = {
+    is_like: boolean, //True = like 
+}                     //False = dislike

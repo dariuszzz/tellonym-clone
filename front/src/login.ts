@@ -1,4 +1,4 @@
-import {login_and_print_logged_user} from './fetchexample';
+import {login_and_print_logged_user} from './utils';
 import { AccessToken } from './types';
 
 
