@@ -59,6 +59,14 @@ export const constructPost = (targetElementId:string, question:string, answer:st
     const container = <HTMLElement>document.getElementById(targetElementId)
     const postCount = container.childNodes.length
 
+    if (postCount == 1) {
+        let emptyFeedContainer = document.getElementById('empty-feed')
+        if (emptyFeedContainer) {
+            emptyFeedContainer.style.opacity = "0";
+        }
+        
+    }
+
     const appendMagic = (html:string, target:HTMLElement) => {
         var template = document.createElement('template');
         html = html.trim(); 
