@@ -1,7 +1,7 @@
 import './index.css'
 import { checkIfUserIsFollowed } from "./isUserFollowed";
-import { AccessToken, User, UserWithLikes } from "./types";
-import { fetch_api, SERVER_URL, follow_user } from "./utils";
+import { AccessToken, AskData, User, UserWithLikes } from "./types";
+import { fetch_api, SERVER_URL, follow_user, ask_question } from "./utils";
 //import { fetch_api } from './utils';
 
 const token = new AccessToken();
@@ -46,6 +46,25 @@ if (profile_id && profile_id != my_user.user.id) {
             window.location.href = `${window.location.origin}/login.html`
         }
     }
+
+    const askButton = document.getElementById('askButton');
+    const isAnonymous = <HTMLInputElement>document.getElementById('anonymousInput');
+    const questionBody = <HTMLInputElement>document.getElementById('questionBody');
+    
+    
+     if(askButton != null){
+        askButton.onclick = () => {
+            const question : AskData = {
+                anonymous : isAnonymous.checked,
+                content : questionBody.value,
+            };
+            if(profile_id != undefined){
+                ask_question(question, profile_id, token);
+            }
+        }   
+    }
+    
+
 } else { //Profil zalogowanego usera
     profile_id = my_user.user.id;
 
@@ -54,7 +73,7 @@ if (profile_id && profile_id != my_user.user.id) {
         window.location.href = `${window.location.origin}/edit_profile.html`
     }
 
-    
+
 }
     
 
