@@ -1,60 +1,92 @@
+import './index.css'
+import { checkIfUserIsFollowed } from "./isUserFollowed";
 import { AccessToken, User, UserWithLikes } from "./types";
 import { fetch_api, SERVER_URL, follow_user } from "./utils";
+//import { fetch_api } from './utils';
 
+const token = new AccessToken();
 
-export const getAndSetUserData = async (token: AccessToken, profile_id: number | undefined) => {
+const url_params = new URLSearchParams(window.location.search);
+const profile = url_params.get("id");
+let profile_id: number | undefined = profile ? parseInt(profile) : undefined;
 
+const profileButton = document.getElementById("importantProfileButton")!;
 
-    const profileButton = document.getElementById("importantProfileButton");
-    let user: User;
+const my_user: UserWithLikes = await fetch_api(
+    "/me",
+    "GET",
+    undefined,
+    token
+).then(res => res.json())
 
-    if (profile_id) {
-        if(profileButton != null) {
-            profileButton.innerHTML = 'Follow';
-            profileButton.onclick = async () =>{
-                await follow_user(profile_id, token);
-                await getAndSetUserData(token, profile_id);
-            }
+// Profil innego usera
+if (profile_id && profile_id != my_user.user.id) {
+    const unfollow_styles = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
+    const follow_styles = "btn-primary after:content-['Follow']";
+    
+    const btn_function = async (ev: MouseEvent) => {            
+        await follow_user(profile_id as number, token);
+        await getAndSetUserData();
+        profileButton.classList.value = profileButton.classList.value == follow_styles ? unfollow_styles : follow_styles;
+    }
+    
+    const follow_map = await checkIfUserIsFollowed(my_user.user.id, [profile_id]);
+    const followed = follow_map.get(profile_id);
+    
+    if (followed === true) {
+        profileButton.classList.value = unfollow_styles;
+        profileButton.onclick = btn_function;
+    } else if (followed === false) {
+        profileButton.classList.value = follow_styles;
+        profileButton.onclick = btn_function;
+    } else {
+        profileButton.classList.value = follow_styles;
+        profileButton.setAttribute("disabled", "true");
+        profileButton.onclick = () => {
+            window.location.href = `${window.location.origin}/login.html`
         }
-        user = await fetch_api(
-            `/users/${profile_id}`,
-            "GET",
+    }
+} else { //Profil zalogowanego usera
+    profile_id = my_user.user.id;
+
+    profileButton.classList.value = "btn-primary after:content-['Edit_profile']";
+    profileButton.onclick = () => {
+        window.location.href = `${window.location.origin}/edit_profile.html`
+    }
+
+    
+}
+    
+
+const getAndSetUserData = async () => {
+    
+    const user: User = await fetch_api(
+        `/users/${profile_id}`,
+        "GET",
         ).then(res => res.json())
         .catch(() => console.error());
-    } else {
-        const my_user: UserWithLikes = await fetch_api(
-            "/me",
-            "GET",
-            undefined,
-            token
-        )
-        .then(res => res.json())
-        .catch(() => console.error());
-
-        user = my_user.user;        
-    }
-
-    const profile_pic = <HTMLImageElement>document.getElementById("profilepic");
-    if (profile_pic) {
-        profile_pic.src = `${SERVER_URL}/pfps/${user.id}.png`
-    }
-
-    const nickname = user.username;
-    const follower_count = user.follower_count;
-    const following_count = user.following_count;
-    const finalStats : string = `${follower_count} followers | 0 tells | ${following_count} following`;
-    const bio : string = user.bio;
-
-    const nicknameField = document.getElementById('nickname');
-    const stats = document.getElementById('stats');
-    const bioField = document.getElementById('bio');
-    if(nicknameField != null && stats != null && bioField != null){
-        nicknameField.innerHTML = nickname;
-        stats.innerHTML = finalStats;
-        bioField.innerHTML = bio;
-    }
+        
+        
+        const profile_pic = <HTMLImageElement>document.getElementById("profilepic");
+        if (profile_pic) {
+            profile_pic.src = `${SERVER_URL}/pfps/${user.id}.png`
+        }
+        
+        const nickname = user.username;
+        const follower_count = user.follower_count;
+        const following_count = user.following_count;
+        const finalStats : string = `${follower_count} followers | 0 tells | ${following_count} following`;
+        const bio : string = user.bio;
+        
+        const nicknameField = document.getElementById('nickname');
+        const stats = document.getElementById('stats');
+        const bioField = document.getElementById('bio');
+        if(nicknameField != null && stats != null && bioField != null){
+            nicknameField.innerHTML = nickname;
+            stats.innerHTML = finalStats;
+            bioField.innerHTML = bio;
+        }
 }
 
-
-
-
+//set userdata on load
+await getAndSetUserData();

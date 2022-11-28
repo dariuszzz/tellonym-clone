@@ -10,7 +10,7 @@ export const fetch_api_raw = async (
     method: "POST" | "GET", 
     json: ApiInputJSONs | undefined = undefined,
     access_token: AccessToken | undefined = undefined,
-) => fetch(`${SERVER_URL}${route}`, {
+): Promise<Response> => fetch(`${SERVER_URL}${route}`, {
     ...(json && { body: JSON.stringify(json) }),
     headers: {
         ...(json && { "Content-Type": "application/json" }),
@@ -26,7 +26,7 @@ export const fetch_api = async (
     method: "POST" | "GET", 
     json: ApiInputJSONs | undefined = undefined,
     access_token: AccessToken | undefined = undefined, 
-) => {
+): Promise<Response> => {
     let result = await fetch_api_raw(route, method, json, access_token);
 
     //Only if unauthorized (no token) and the token was passed in
@@ -105,6 +105,34 @@ export const follow_user = async (user_id: number, token: AccessToken) => {
         "POST",
         undefined,
         token,
-    ).then(res => res.json())
-    .catch(() => console.error());
+    )
+    .catch(console.error);
 }
+
+// export const create_follow_button = (token: AccessToken, to_follow_id: number, initial_follow: boolean | undefined): HTMLButtonElement => {
+//     const followButton = document.createElement("button");
+
+//     const unfollow_styles = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
+//     const follow_styles = "btn-primary after:content-['Follow']";
+
+//     const btn_function = function (this: HTMLButtonElement, ev: MouseEvent) {
+//         follow_user(to_follow_id, token);
+//         this.classList.value = this.classList.value == follow_styles ? unfollow_styles : follow_styles;
+//     }
+
+//     if (initial_follow === true) {
+//         followButton.classList.value = unfollow_styles;
+//         followButton.addEventListener("click", btn_function)
+//     } else if (initial_follow === false) {
+//         followButton.classList.value = follow_styles;
+//         followButton.addEventListener("click", btn_function)
+//     } else {
+//         followButton.classList.add("btn-primary", "after:content-['Follow']");
+//         followButton.setAttribute("disabled", "true");
+//         followButton.addEventListener("click",  function () {
+//             window.location.href = `${window.location.origin}/login.html`
+//         })
+//     }
+
+//     return followButton;
+// }

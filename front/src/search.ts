@@ -1,12 +1,19 @@
 import "./index.css";
 import { checkIfUserIsFollowed } from "./isUserFollowed";
-import {AccessToken, User} from './types';
+import {AccessToken, User, UserWithLikes} from './types';
 import { fetch_api, follow_user } from "./utils";
 
 
 const token = new AccessToken();
 
 const searchButton = document.getElementById('search')!;
+
+const my_user: UserWithLikes = await fetch_api(
+    "/me",
+    "GET",
+    undefined,
+    token
+).then(res => res.json())
 
 searchButton.onclick = (e) => {
     e.preventDefault();
@@ -18,6 +25,8 @@ const constructElement = (user: User, followed: boolean) => {
     const searchResult = document.createElement("div");
     searchResult.classList.add("searchResult", "flex", "flex-row", "cursor-pointer", "bg-slate-100", "hover:bg-blue-100", "w-full", "items-center", "justify-between", "h-28", "p-2", "px-5", "rounded-md");
 
+    const followButton = document.createElement("button");
+
     const unfollow_styles = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
     const follow_styles = "btn-primary after:content-['Follow']";
 
@@ -26,7 +35,6 @@ const constructElement = (user: User, followed: boolean) => {
         this.classList.value = this.classList.value == follow_styles ? unfollow_styles : follow_styles;
     }
 
-    const followButton = document.createElement("button");
     if (followed === true) {
         followButton.classList.value = unfollow_styles;
         followButton.addEventListener("click", btn_function)
@@ -41,8 +49,6 @@ const constructElement = (user: User, followed: boolean) => {
         })
     }
 
-
-    // <div class="searchResult flex flex-row bg-slate-100 w-full items-center justify-between h-28 p-2 px-5 rounded-md">
     const template = `
         <div class="flex flex-row items-center gap-2 w-full h-full pointer-events-none">
             <div class="rounded-full overflow-hidden h-4/5 aspect-square pointer-events-none">
@@ -84,7 +90,7 @@ const searchForPeople = () => {
         .forEach(el => el.remove());
         
         const sortedUsers = users.sort((user1: User, user2: User) => user1.username.length - user2.username.length);
-        const follow_map = await checkIfUserIsFollowed(token, sortedUsers.map((user: User) => user.id));
+        const follow_map = await checkIfUserIsFollowed(my_user.user.id, sortedUsers.map((user: User) => user.id));
 
         sortedUsers.forEach((user: User) => {
 
