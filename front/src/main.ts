@@ -55,24 +55,34 @@ if(registerButton != null){
 
 if (document.location.pathname == "/index.html") { // okropny, OKROPNY sposób żeby to zdrobić ale narazie dnc
     
-    // const my_user: UserWithLikes | undefined = await fetch_api(
-    //     "/me",
-    //     "GET",
-    //     undefined,
-    //     token
-    // )
-    // .then(res => res.json())
-    // .catch(console.error) 
+    const myUser: UserWithLikes | undefined = await fetch_api(
+        "/me",
+        "GET",
+        undefined,
+        token
+    )
+    .then(res => res.json())
+    .catch(console.error) 
 
-    // const posts: Array<QuestionWithAnswer> | undefined = await fetch_api(
-    //     "/questions",
-    //     "GET",
-    //     undefined,
-    //     token
-    // )
-    // .then(res => res.json())
-    // .catch(console.error) 
+    const followers: Array<User> | undefined = await fetch_api(
+        `/user/${myUser?.user.id}/followers`,
+        "GET",
+        undefined,
+        token
+    )
+    .then(res => res.json())
+    .catch(console.error) 
 
-    // constructPost("wrapper", testPost,testuser1, [testuser2,testuser3], likes);
+
+    const posts: Array<QuestionWithAnswer> | undefined = await fetch_api(
+        "/homepage",
+        "GET",
+        undefined,
+        token
+    )
+    .then(res => res.json())
+    .catch(console.error) 
+
+    posts!.forEach((post) => constructPost("wrapper", post,myUser?.user!, followers? followers : [], myUser!.likes))
 
 }
