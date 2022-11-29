@@ -11,6 +11,7 @@ import { register } from './register';
 import { AccessToken } from './types';
 import { constructPost } from './homePostDisplay'
 
+
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
 // await login_and_print_logged_user("test", "test", token);
 

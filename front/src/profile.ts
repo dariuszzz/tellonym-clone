@@ -1,7 +1,7 @@
 import './index.css'
 import { checkIfUserIsFollowed } from "./isUserFollowed";
-import { AccessToken, AskData, User, UserWithLikes } from "./types";
-import { fetch_api, SERVER_URL, follow_user, ask_question } from "./utils";
+import { AccessToken, AskData, User, UserWithLikes, QuestionWithAnswer } from "./types";
+import { fetch_api, SERVER_URL, follow_user, ask_question, getUserQuestions, constructPost } from "./utils";
 //import { fetch_api } from './utils';
 
 const token = new AccessToken();
@@ -121,5 +121,25 @@ const getAndSetUserData = async () => {
     }
 }
 
+
+
 //set userdata on load
+if(profile_id != undefined){
+    const questions : QuestionWithAnswer[] = await getUserQuestions(profile_id);
+    const postsHere = document.getElementById('postsHere')!;
+    if(questions){
+        postsHere.innerHTML = "";
+        let i = 0;
+        questions.forEach(async question =>{
+            if(profile_id != undefined){
+                postsHere.appendChild(await constructPost(question, i, profile_id));
+                i+=1;
+            }
+            
+        })
+    }
+    
+    
+}
+
 await getAndSetUserData();
