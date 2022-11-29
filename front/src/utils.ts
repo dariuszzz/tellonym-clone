@@ -162,15 +162,19 @@ const getUsername = async (id: number) => {
 
 
 
-export const constructPost = async (question : QuestionWithAnswer, postCount : number, profileID : number, token : AccessToken) => {
+export const constructPost = async (question : QuestionWithAnswer, postCount : number, profileID : number) => {
     
     const senderName = question.question.asker_id ? await getUsername(question.question.asker_id) : "Anonymous";
 
     let questionDate = new Date(question.question.asked_at).toLocaleString();
     let template;
-    if(question.answer != null) {
-        let answerDate = new Date(question.answer.answered_at).toLocaleString();
-        template = `<div id="questionAndResponses" class="flex flex-col w-full mt-10 bg-slate-300 rounded-md py-2">
+
+    if(question.answer) {
+        const answerDate = new Date(question.answer.answered_at).toLocaleString();
+        const askerUsername = await getUsername(profileID);
+
+        template = `
+        <div id="questionAndResponses" class="flex flex-col w-full bg-slate-300 rounded-md py-2">
         <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
             <div id="sender">${senderName}</div>
             <div id="postDate">${questionDate}</div>
@@ -190,7 +194,7 @@ export const constructPost = async (question : QuestionWithAnswer, postCount : n
     </div>
     <div id="responses" class="my-5 pl-14">
             <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
-            <div id="sender">${await getUsername(profileID)}</div>
+            <div id="sender">${askerUsername}</div>
             <div id="postDate">${answerDate}</div>
             </div>
             <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
@@ -211,7 +215,7 @@ export const constructPost = async (question : QuestionWithAnswer, postCount : n
 
     }
     else{
-        template = `<div id="questionAndResponses" class="flex flex-col w-full mt-10 bg-slate-300 rounded-md py-2">
+        template = `<div id="questionAndResponses" class="flex flex-col w-full bg-slate-300 rounded-md py-2">
     <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
         <div id="sender">${senderName}</div>
         <div id="postDate">${questionDate}</div>

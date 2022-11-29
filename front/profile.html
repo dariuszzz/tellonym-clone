@@ -15,7 +15,7 @@
     </ul>
     </nav>
     <div id="wrapper" class="w-100 h-full m-0 mt-5 flex flex-col items-center justify-center mb-5">
-      <div class="flex flex-col gap-2 md:w-1/2 sm:w-2/3 w-full h-full items-center">
+      <div class="flex flex-col gap-2 lg:w-2/5 md:w-1/2 sm:w-2/3 w-full h-full items-center">
         <div id="profile-card" class="w-full bg-slate-100 rounded-md w-full flex flex-col items-center gap-2 pt-3 pb-6 px-5">
           <div id="photo" class="flex w-32 h-32 rounded-full bg-black mt-5 overflow-hidden">
             <img id="profilepic" class="object-cover object-center" src="cat.jpg">>
@@ -39,13 +39,13 @@
         </div>
         <ul id="filter" class="flex flex-row w-full bg-slate-100 rounded-md">
             <li class="w-full">
-                <input type="radio" id="sortLikes" name="sort" value="sortLikes" checked class="hidden peer" required>
+                <input type="radio" id="sortLikes" name="sort" value="sortLikes" class="hidden peer" required>
                 <label for="sortLikes" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-slate-100 rounded-l-md border border-gray-200 cursor-pointer dark:hover:text-black dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-black hover:bg-gray-100">                           
                   Sort by likes
                 </label>
             </li>
             <li class="w-full">
-                <input type="radio" id="sortNewest" name="sort" value="sortNewest" class="hidden peer">
+                <input type="radio" id="sortNewest" name="sort" value="sortNewest" class="hidden peer" checked>
                 <label for="sortNewest" class="inline-flex justify-between items-center p-5 w-full text-gray-500 bg-slate-100 rounded-r-md border-l-0 border border-gray-200 cursor-pointer dark:hover:text-black dark:border-gray-700 dark:peer-checked:text-blue-500 peer-checked:border-blue-600 peer-checked:text-blue-600 hover:text-black hover:bg-gray-100">
                   Sort by newest
                 </label>
