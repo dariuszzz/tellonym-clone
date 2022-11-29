@@ -91,12 +91,13 @@ export const postLikeUpdate = (postNumber:number, question: boolean, like: boole
 
 }
 
-export const constructPost = (targetElementId: string, {question, answer}: QuestionWithAnswer,currentUser: User, followers: Array<User>, likes: Array<Like>) => {
+export const constructPost = (targetElementId: string, {question, answer}: QuestionWithAnswer,currentUser: User, followers: User[], likes: Array<Like>) => {
 
     if (answer) {
 
         // Szukanie konta autora pytania i odpowiedzi
         const aUser = [currentUser, ...followers].find(user => user.id == question.asked_id)
+        console.log(aUser);
         const qUser = question.asker_id? [currentUser, ...followers].find(user => user.id == question.asker_id) : undefined
 
         let qLiker = likes.filter(like => like.like_type == "QuestionLike" || like.like_type == "QuestionDislike").find(like => like.resource_id == question.id)
