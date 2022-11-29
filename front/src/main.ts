@@ -8,7 +8,7 @@ import './index.css'
 //import { fetch_api } from './utils';
 import { login } from './login';
 import { register } from './register';
-import { AccessToken, Like, QuestionWithAnswer, User, UserWithLikes } from './types';
+import { AccessToken, QuestionWithAnswer, User, UserWithLikes } from './types';
 //import { searchForPeople } from './searchForProfiles';
 import { constructPost } from './homePostDisplay'
 import { fetch_api } from './utils';

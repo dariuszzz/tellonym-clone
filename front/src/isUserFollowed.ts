@@ -1,4 +1,3 @@
-import {AccessToken} from "./types";
 import { fetch_api } from "./utils";
 import { User} from './types';
 

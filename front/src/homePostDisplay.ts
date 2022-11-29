@@ -1,9 +1,8 @@
 // UWAGA // UWAGA // UWAGA // cały ten plik to horror ponad ludzką komprehencję
 
-import { AccessToken, Like, QuestionWithAnswer, User, UserWithLikes } from "./types"
-import { fetch_api } from "./utils"
+import { Like, QuestionWithAnswer, User } from "./types"
 
-export const postLikeUpdate = (postNumber:number, question: boolean, like: boolean, ignore: boolean, question_id: number) => { // nazwa do zmienienia nie wytrzymam
+export const postLikeUpdate = (postNumber:number, question: boolean, like: boolean, ignore: boolean) => { // nazwa do zmienienia nie wytrzymam
     
     const questionShort = question? "q": "a"
 
@@ -179,10 +178,10 @@ export const constructPost = (targetElementId: string, {question, answer}: Quest
 
         let ignore = false
 
-        document.getElementById(`qLikeButton${postCount}`)   !.addEventListener('click',() => {postLikeUpdate(postCount,true, true, ignore, question.id)})
-        document.getElementById(`qDislikeButton${postCount}`)!.addEventListener('click',() => {postLikeUpdate(postCount,true, false, ignore, question.id)})
-        document.getElementById(`aLikeButton${postCount}`)   !.addEventListener('click',() => {postLikeUpdate(postCount,false,true, ignore, question.id)})
-        document.getElementById(`aDislikeButton${postCount}`)!.addEventListener('click',() => {postLikeUpdate(postCount,false,false, ignore, question.id)})
+        document.getElementById(`qLikeButton${postCount}`)   !.addEventListener('click',() => {postLikeUpdate(postCount,true, true, ignore)})
+        document.getElementById(`qDislikeButton${postCount}`)!.addEventListener('click',() => {postLikeUpdate(postCount,true, false, ignore)})
+        document.getElementById(`aLikeButton${postCount}`)   !.addEventListener('click',() => {postLikeUpdate(postCount,false,true, ignore)})
+        document.getElementById(`aDislikeButton${postCount}`)!.addEventListener('click',() => {postLikeUpdate(postCount,false,false, ignore)})
 
         ignore = true
 

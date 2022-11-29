@@ -11,7 +11,7 @@ const my_user: UserWithLikes | undefined = await fetch_api(
     undefined,
     token
 ).then(res => res.json())
-.catch(err => undefined)
+.catch(_ => undefined)
 
 //redirect na login jak nie ma usera
 if (!my_user) window.location.href = `${window.location.origin}/login.html`

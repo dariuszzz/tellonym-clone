@@ -14,7 +14,7 @@ const my_user: UserWithLikes | undefined = await fetch_api(
     undefined,
     token
 ).then(res => res.json())
-.catch(err => undefined )
+.catch(_ => undefined )
 
 searchButton.onclick = (e) => {
     e.preventDefault();
@@ -31,7 +31,7 @@ const constructElement = (user: User, followed: boolean | undefined) => {
     const unfollow_styles = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
     const follow_styles = "btn-primary after:content-['Follow']";
 
-    const btn_function = function (this: HTMLButtonElement, ev: MouseEvent) {
+    const btn_function = function (this: HTMLButtonElement, _: MouseEvent) {
         follow_user(user.id, token);
         this.classList.value = this.classList.value == follow_styles ? unfollow_styles : follow_styles;
     }

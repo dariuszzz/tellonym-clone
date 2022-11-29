@@ -25,14 +25,14 @@ const my_user: UserWithLikes | undefined = await fetch_api(
     undefined,
     token
 ).then(res => res.json())
-.catch(err => undefined)
+.catch(_ => undefined)
 
 // Profil innego usera (zalogowany lub nie)
 if (profile_id && (profile_id != my_user?.user.id)) {
     const unfollow_styles = "btn-secondary hover:border-red-400 hover:text-red-400 hover:after:content-['Unfollow'] after:content-['Following']";
     const follow_styles = "btn-primary after:content-['Follow']";
     
-    const btn_function = async (ev: MouseEvent) => {            
+    const btn_function = async (_: MouseEvent) => {            
         await follow_user(profile_id as number, token);
         await getAndSetUserData();
         profileButton.classList.value = profileButton.classList.value == follow_styles ? unfollow_styles : follow_styles;
@@ -93,7 +93,7 @@ if (profile_id && (profile_id != my_user?.user.id)) {
 }
     
 
-const getAndSetUserData = async () => {
+export const getAndSetUserData = async () => {
     
     const user: User = await fetch_api(
         `/users/${profile_id}`,
