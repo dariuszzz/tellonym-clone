@@ -137,7 +137,7 @@ export const getUserQuestions = async (user_id: number) => {
         return questions;     
 }
 
-const answerQuestion = async (question_id: number, token: AccessToken, answer : AnswerData) =>{
+export const answerQuestion = async (question_id: number, token: AccessToken, answer : AnswerData) =>{
          await fetch_api(
         `/questions/${question_id}/answer`,
         "POST",
@@ -149,7 +149,7 @@ const answerQuestion = async (question_id: number, token: AccessToken, answer : 
 }
 
 
-const getUsername = async (id: number) => {    
+export const getUsername = async (id: number) => {    
     let username = await fetch_api(
         `/users/${id}`,
         "GET",
@@ -160,91 +160,143 @@ const getUsername = async (id: number) => {
     }
 
 
+const generateLikeButtons = (initial_like: boolean | undefined, type: "question" | "answer") => {
+    const like = document.createElement("button");
+    like.classList.value = "inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500";
+    like.innerHTML = `<svg aria-hidden="true" class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>`
 
+    const dislike = document.createElement("button");
+    dislike.classList.value = "inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group";
+    dislike.innerHTML = `<svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path></svg>`
 
-export const constructPost = async (question : QuestionWithAnswer, postCount : number, profileID : number) => {
+    // like.getElementsByTagName("svg")[0].setAttribute("fill", initial_like === true ? "grey" : "currentColor");
+    // dislike.getElementsByTagName("svg")[0].setAttribute("fill", initial_like === false ? "grey" : "currentColor");
+
+    like.onclick = () => {
+        // todo likes
+
+    }
+
+    dislike.onclick = () => {
+        // todo dislike
+    }
+
+    return [like, dislike];
+}
+
+export const constructPost = async (question : QuestionWithAnswer,  profileID : number) => {
     
     const senderName = question.question.asker_id ? await getUsername(question.question.asker_id) : "Anonymous";
 
     let questionDate = new Date(question.question.asked_at).toLocaleString();
     let template;
 
-    if(question.answer) {
-        const answerDate = new Date(question.answer.answered_at).toLocaleString();
-        const askerUsername = await getUsername(profileID);
+    const qnaDiv = document.createElement("div");
+    qnaDiv.classList.value = "qnaDiv flex flex-col w-full bg-slate-300 rounded-md py-2";
 
-        template = `
-        <div id="questionAndResponses" class="flex flex-col w-full bg-slate-300 rounded-md py-2">
-            <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
-                <div id="sender">${askerUsername}</div>
-                <div id="postDate">${questionDate}</div>
-            </div>
-            <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
-            <div id="postContent" class="w-5/6">${question.question.content}</div>
-                <div id="rating" class="w-1/6 text-right flex flex-col items-center justify-center">
-                    <button id="qLikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                        <svg aria-hidden="true" class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
-                    </button>
-                    <p id="qLikes${postCount}" name="0">${question.question.likes}</p>
-                    <button id="qDislikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group">
-                        <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path></svg>
-                    </button>
-                
-                </div>
+    let askedAndDate;
+
+    let  questionTemplate = `
+    <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
+    <div id="postContent" class="w-5/6">${question.question.content}</div>
+        <div class="questionRating w-1/6 text-right flex flex-col items-center justify-center">
+            <div class="actualRating">${question.question.likes}</div>         
         </div>
-        <div id="responses" class="my-5 pl-14">
-                <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
-                <div id="sender">${askerUsername}</div>
-                <div id="postDate">${answerDate}</div>
+    </div>`
+
+    if(question.answer) {
+        
+        const answerDate = new Date(question.answer.answered_at).toLocaleString();
+        const asked = await getUsername(profileID);
+
+        askedAndDate = `<div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
+            <div id="sender">${asked}</div>
+            <div id="postDate">${questionDate}</div>
+        </div>`;
+
+        questionTemplate += `
+        <div id="responses" class="my-5 pt-2 bg-slate-200 ml-10">
+            <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
+                <div class="flex flex-row items-center gap-2">
+                    <div id="photo" class="flex w-10 h-10 rounded-full bg-black overflow-hidden">
+                        <img id="profilepic" class="object-cover object-center" src=${SERVER_URL}/pfps/${profileID}.png>>
+                    </div>    
+                    <div id="sender">${asked}</div>
                 </div>
-                <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
-                <div id="postContent" class="w-5/6">${question.answer.content}</div>
-                    <div id="rating" class="w-1/6 text-right flex flex-col items-center justify-center">
-                        <button id="aLikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                            <svg aria-hidden="true" class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
-                        </button>
-                        <p id="aLikes${postCount}" name="0"">${question.answer.likes}</p>
-                        <button id="aDislikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group">
-                            <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path></svg>
-                        </button>
-                        
+                <div id="postDate">${answerDate}</div>
+            </div>
+            <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3">
+                
+                <div id="postContent" class="pl-10 w-5/6">${question.answer.content}</div>
+                    <div class="answerRating w-1/6 text-right flex flex-col items-center justify-center">
+                        <div class="actualRating">${question.answer.likes}</div> 
                     </div>
                 </div>
             </div>
-        </div>`
+        </div>`;
 
-    }
-    else{
-        template = `
-        <div id="questionAndResponses" class="flex flex-col w-full bg-slate-300 rounded-md py-2">
-            <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
+        
+    } else {
+        askedAndDate = `<div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
+                <div class="flex flex-row items-center gap-2">
+                <div id="photo" class="flex w-10 h-10 rounded-full bg-black overflow-hidden">
+                    <img id="profilepic" class="object-cover object-center" src=${SERVER_URL}/pfps/${senderName === "Anonymous" ? "0.jpg" : question.question.asker_id + ".png"}>>
+                </div>    
                 <div id="sender">${senderName}</div>
-                <div id="postDate">${questionDate}</div>
             </div>
-            <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
-                <div id="postContent" class="w-5/6">${question.question.content}</div>
-                <div id="rating" class="w-1/6 text-right flex flex-col items-center justify-center">
-                    <button id="qLikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
-                        <svg aria-hidden="true" class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
-                    </button>
-                    <p id="qLikes${postCount}" name="0">${question.question.likes}</p>
-                    <button id="qDislikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group">
-                        <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path></svg>
-                    </button>
-                        
-                </div>
-            </div>
-        </div>
-`;
+            <div id="postDate">${questionDate}</div>
+        </div>`
+    }
+//         template = `<div id="questionAndResponses" class="flex flex-col w-full bg-slate-300 rounded-md py-2">
+//     <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
+//         <div id="sender">${senderName}</div>
+//         <div id="postDate">${questionDate}</div>
+//     </div>
+//     <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
+//     <div id="postContent" class="w-5/6">${question.question.content}</div>
+//     <div id="rating" class="w-1/6 text-right flex flex-col items-center justify-center">
+//         <button id="qLikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
+//             <svg aria-hidden="true" class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
+//         </button>
+//         <p id="qLikes${postCount}" name="0">${question.question.likes}</p>
+//         <button id="qDislikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group">
+//             <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path></svg>
+//         </button>
+       
+//     </div>
+// </div>
+// <div id="answerQuestion" class="flex flex-col gap-2 md:w-2/3 w-4/5 pl-6">
+// <textarea id="questionBody" class="p-2 h-14 border-2 border-blue-500 rounded-md resize-none"> </textarea>
+// <div id="buttons" class="flex flex-row gap-5 justify-between">
+//   <button type="button" id="askButton" class="h-8 w-16 bg-blue-500 hover:bg-blue-700 text-white px-2 rounded-full text-sm">Answer</button> 
+// </div>
+// </div>
+// </div>
+// </div>
 
    
+
+
+    qnaDiv.innerHTML = askedAndDate + questionTemplate; 
+
+    const questionRating = qnaDiv.getElementsByClassName("questionRating")[0];
+
+    const [qlike, qdislike] = generateLikeButtons(undefined, "question");
+    const [alike, adislike] = generateLikeButtons(undefined, "answer");
+
+    questionRating.prepend(qlike);
+    questionRating.append(qdislike);
     
-}
-    let questionElement = document.createElement("div");
-    questionElement.innerHTML = template;
-    questionElement.className = "w-full";
-    return questionElement;
+    const answerRating = qnaDiv.getElementsByClassName("answerRating")[0];
+
+    if (answerRating) {
+        answerRating.prepend(alike);
+        answerRating.append(adislike);
     }
+
+
+    return qnaDiv;
+}
 
 
 // <div id="responses" class="my-5 pl-14">
