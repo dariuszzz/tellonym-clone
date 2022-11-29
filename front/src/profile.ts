@@ -12,6 +12,13 @@ let profile_id: number | undefined = profile ? parseInt(profile) : undefined;
 
 const profileButton = document.getElementById("importantProfileButton")!;
 
+
+const sortTypes = <NodeListOf<HTMLInputElement>>document.querySelectorAll('input[name="sort"]')!;
+sortTypes.forEach(el => el.onchange = async () => {
+    await showTellsOnProfile();
+});
+
+
 const my_user: UserWithLikes | undefined = await fetch_api(
     "/me",
     "GET",
@@ -68,9 +75,6 @@ if (profile_id && (profile_id != my_user?.user.id)) {
             window.location.href = `${window.location.origin}/login.html`
         }
     }
-
-
-    
 
 } else if (my_user) { //Profil zalogowanego usera
     document.querySelector("#askQuestion")?.remove();
@@ -132,20 +136,23 @@ const getAndSetUserData = async () => {
 //set userdata on load
 const showTellsOnProfile = async () => {
     if(profile_id != undefined){
-        const questions : QuestionWithAnswer[] = await getUserQuestions(profile_id);
+        let questions : QuestionWithAnswer[] = await getUserQuestions(profile_id);
+
+        if (sortTypes[1].checked) {
+            questions = questions.sort((qa1, qa2) => new Date(qa2.question.asked_at).getTime() - new Date(qa1.question.asked_at).getTime())
+        } else {
+            questions = questions.sort((qa1, qa2) => qa2.question.likes - qa1.question.likes)
+        }
+
         const postsHere = document.getElementById('postsHere')!;
         postsHere.innerHTML = "";
-        if(questions){
-            postsHere.innerHTML = "";
-            let i = 0;
-            questions.forEach(async question =>{
-                if(profile_id != undefined){
-                    postsHere.appendChild(await constructPost(question, i, profile_id));
-                    i+=1;
-                }
-                
-            })
-        }  
+        let i = 0;
+        questions.forEach(async question =>{
+            if(profile_id != undefined){
+                postsHere.appendChild(await constructPost(question, i, profile_id));
+                i+=1;
+            }
+        })
     }
 }
 
