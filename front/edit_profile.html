@@ -15,7 +15,7 @@
     </ul>
     </nav>
     <div id="wrapper" class="w-100 h-full m-0 mt-5 flex flex-col items-center justify-center">
-      <div id="profile-card" class="w-5/6 2xl:w-2/6 xl:w-3/6 lg:w-3/6 md:w-5/7 sm:w-4/5 bg-slate-100 rounded-md flex flex-col items-center gap-2 pt-3 pb-6">
+      <div id="profile-card" class="w-5/6 2xl:w-2/6 xl:w-3/6 lg:w-2/6 md:w-5/7 sm:w-4/5 bg-slate-100 rounded-md flex flex-col items-center gap-2 pt-3 pb-6">
         <!-- <div id="photo" class="w-32 h-32 rounded-full bg-black mt-5 overflow-hidden">
           <img id="profilepic" src="cat.jpg">>
         </div>
@@ -23,13 +23,23 @@
         <div id="bio" class="text-xl"></div>
         <div id="stats" class="text-lg">0 followers | 0 tells | 0 following</div>
         <button type="button" id="importantProfileButton" class="h-10 bg-blue-500 hover:bg-blue-700 text-white py-2 px-2 rounded-full text-sm"></button> -->
+        <div class="text-2xl font-semibold">Edit profile</div>
         <form id="editProfileForm">
-            <div class="flex flex-col">    
-                <input type="file" name="profile_pic"/>
-                <input type="text" name="username"/>
-                <input type="password" name="password"/>
-                <input type="password" name="current_pass"/>
-                <input type="bio" name="bio"/>
+            <div class="flex flex-col gap-2">    
+                <div class="flex flex-row gap-5 items-center justify-between content-between">
+                    <div class="flex w-32 h-32 rounded-full bg-black mt-5 overflow-hidden">
+                        <img id="pfpPreview" class="object-center object-cover" src=""><img>
+                    </div>
+                    <input id="pfpInput" type="file" name="profile_pic"/>
+                </div>
+                <label class="text-lg font-medium" for="username" autocomplete="off" class="">New username</label>
+                <input class="rounded-md border-2 border-gray-300 p-2" type="text" name="username" autocomplete="off"/>
+                <label class="text-lg font-medium" for="password" autocomplete="off">New password</label>
+                <input class="rounded-md border-2 border-gray-300 p-2" type="password" name="password" autocomplete="off"/>
+                <label class="text-lg font-medium" for="current_password" autocomplete="off">Current password (only needed if changing password)</label>
+                <input class="rounded-md border-2 border-gray-300 p-2" type="password" name="current_password" autocomplete="off"/>
+                <label class="text-lg font-medium" for="bio" autocomplete="off">New bio</label>
+                <textarea class="rounded-md border-2 border-gray-300 p-2" name="bio" autocomplete="off"></textarea>
                 <button type="submit" class="btn-primary">Submit</button>
             </div>
         </form>

@@ -1,7 +1,7 @@
 import './index.css'
 import { checkIfUserIsFollowed } from "./isUserFollowed";
-import { AccessToken, AskData, User, UserWithLikes } from "./types";
-import { fetch_api, SERVER_URL, follow_user, ask_question } from "./utils";
+import { AccessToken, AskData, User, UserWithLikes, QuestionWithAnswer } from "./types";
+import { fetch_api, SERVER_URL, follow_user, ask_question, getUserQuestions, constructPost } from "./utils";
 //import { fetch_api } from './utils';
 
 const token = new AccessToken();
@@ -49,13 +49,16 @@ if (profile_id && (profile_id != my_user?.user.id)) {
         
         
          if(askButton != null){
-            askButton.onclick = () => {
+            askButton.onclick = async () => {
                 const question : AskData = {
                     anonymous : isAnonymous.checked,
                     content : questionBody.value,
                 };
                 if(profile_id != undefined){
-                    ask_question(question, profile_id, token);
+                    questionBody.innerHTML = "";
+                    await ask_question(question, profile_id, token);
+                    await getAndSetUserData();
+                    await showTellsOnProfile();
                 }
             }   
         }
@@ -96,16 +99,24 @@ const getAndSetUserData = async () => {
         ).then(res => res.json())
         .catch(() => console.error());
         
-        
+    
+
         const profile_pic = <HTMLImageElement>document.getElementById("profilepic");
         if (profile_pic) {
             profile_pic.src = `${SERVER_URL}/pfps/${user.id}.png`
         }
         
+        const tellCount = await fetch_api(
+            `/users/${profile_id}/questions`,
+            "GET",
+            ).then(res => res.json())
+             .then(res => res.length)
+             .catch(console.error);
+        
         const nickname = user.username;
         const follower_count = user.follower_count;
         const following_count = user.following_count;
-        const finalStats : string = `${follower_count} followers | 0 tells | ${following_count} following`;
+        const finalStats : string = `${follower_count} followers | ${tellCount} tells | ${following_count} following`;
         const bio : string = user.bio;
         
         const nicknameField = document.getElementById('nickname');
@@ -118,5 +129,27 @@ const getAndSetUserData = async () => {
         }
 }
 
+
+
 //set userdata on load
+const showTellsOnProfile = async () => {
+    if(profile_id != undefined){
+        const questions : QuestionWithAnswer[] = await getUserQuestions(profile_id);
+        const postsHere = document.getElementById('postsHere')!;
+        postsHere.innerHTML = "";
+        if(questions){
+            postsHere.innerHTML = "";
+            let i = 0;
+            questions.forEach(async question =>{
+                if(profile_id != undefined){
+                    postsHere.appendChild(await constructPost(question, i, profile_id));
+                    i+=1;
+                }
+                
+            })
+        }  
+    }
+}
+
 await getAndSetUserData();
+await showTellsOnProfile();

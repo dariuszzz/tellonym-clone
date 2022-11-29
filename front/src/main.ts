@@ -13,6 +13,7 @@ import { AccessToken, Like, QuestionWithAnswer, User, UserWithLikes } from './ty
 import { constructPost } from './homePostDisplay'
 import { fetch_api } from './utils';
 
+
 // setupCounter(document.querySelector<HTMLButtonElement>('#counter')!)
 // await login_and_print_logged_user("test", "test", token);
 

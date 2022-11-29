@@ -51,12 +51,12 @@ const constructElement = (user: User, followed: boolean | undefined) => {
 
     const template = `
         <div class="flex flex-row items-center gap-2 w-full h-full pointer-events-none">
-            <div class="rounded-full overflow-hidden h-4/5 aspect-square pointer-events-none">
-                <img class="object-scale-down" src="http://127.0.0.1:8000/pfps/${user.id}.png">
+            <div class="flex rounded-full overflow-hidden h-4/5 aspect-square pointer-events-none">
+                <img class="object-scale-down object-center" src="http://127.0.0.1:8000/pfps/${user.id}.png">
             </div>
             <div class="flex flex-col justify-between pointer-events-none">
                 <p><b>${user.username}</b></p>
-                <p>${user.bio}</p>
+                <p class="truncate">${user.bio}</p>
             </div>
         </div>
         `;
@@ -98,6 +98,7 @@ const searchForPeople = () => {
 
             let followed: boolean | undefined = undefined;
             if (my_user) followed  = follow_map.get(user.id)!;
+            if (my_user && user.id == my_user.user.id) return;
 
             let searchResult = constructElement(user, followed);
             wrapperForInsertion.prepend(searchResult);

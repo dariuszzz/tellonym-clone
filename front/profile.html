@@ -16,8 +16,8 @@
     </nav>
     <div id="wrapper" class="w-100 h-full m-0 mt-5 flex flex-col items-center justify-center">
       <div id="profile-card" class="w-5/6 2xl:w-2/6 xl:w-3/6 lg:w-3/6 md:w-5/7 sm:w-4/5 bg-slate-100 rounded-md flex flex-col items-center gap-2 pt-3 pb-6">
-        <div id="photo" class="w-32 h-32 rounded-full bg-black mt-5 overflow-hidden">
-          <img id="profilepic" src="cat.jpg">>
+        <div id="photo" class="flex w-32 h-32 rounded-full bg-black mt-5 overflow-hidden">
+          <img id="profilepic" class="object-cover object-center" src="cat.jpg">>
         </div>
         <div id="nickname" class="text-2xl">Your nickname</div>
         <div id="bio" class="text-xl"></div>
@@ -35,7 +35,11 @@
           </div>
         </div>
       </div>
-      <div id="text" class="mt-8 font-bold text-3xl opacity-50">Your posts will be here</div>  
+      <div id="postsHere" class="w-full flex flex-col items-center content-center">
+        <div id="text" class="mt-8 font-bold text-3xl opacity-50">Your posts will be here</div> 
+      </div>
+      
+     
     </div>
     
     <script type="module" src="/src/profile.ts"></script>
