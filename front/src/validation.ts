@@ -1,26 +1,23 @@
 export const validatePassword = (input: string) => {
 
-    if (input = "") {
+    if (input == "") {
 
-        return "Pole wymagane"
+        return "Password field empty"
 
     } else {
-
+        console.log(input);
         let errors = ""
 
         errors += input.length > 8?
-        "" : "<br>- Pryznajmniej 8 liter"
+        "" : "\nAt least 8 characters"
     
         errors += input.match(/\d/g)?
-        "" : "<br>- Pryznajmniej jedna cyfra" 
-    
-        errors += !input.match(/[^\d\w]/g)?
-        "" : "<br>- Niedozwolone są znaki specialne" 
+        "" : "\nAt least 1 number" 
     
         errors += input.match(/[A-Z]/g) && input.match(/[a-z]/g)?
-        "" : "<br>- Pryznajmniej jedna wielka i mała litera"
+        "" : "\nAt least one big and one small letter"
     
-        return errors != ""? `Twoje hasło nie spełnia następujących zasad:${errors}`:""
+        return errors != ""? `Your password does not follow these requierments: ${errors}`:""
 
     }
 
@@ -28,22 +25,20 @@ export const validatePassword = (input: string) => {
 
 export const validateLogin = (input: string) => {
 
-    if (input = "") {
+        let errors = "";
 
-        return "Pole wymagane"
+        if (input == "") {
 
-    } else {
-
-        let errors = ""
-
-        errors += input.length > 8?
-        "" : "<br>- Pryznajmniej 4 litery"
+            return "Login field empty"
     
-        errors += !input.match(/[^\d\w]/g)?
-        "" : "<br>- Niedozwolone są znaki specialne" 
-    
-        return errors != ""? `Twój login nie spełnia następujących zasad:${errors}`:""
+        } else {
 
+        if(input.length <= 4){
+            errors+= "\nat least 4 characters";
+        }
+        
+        errors += !input.match(/[^\d\w]/g) ? "" : "\nSpecial characters forbidden";
+    
+        return errors != ""? `Your login does not follow :${errors}`:"";
     }
-
 }

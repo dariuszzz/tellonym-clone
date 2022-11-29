@@ -1,6 +1,7 @@
 import "./index.css"
 import { AccessToken, UserWithLikes } from "./types";
 import { edit_profile_data, fetch_api, SERVER_URL } from "./utils";
+import { validateLogin, validatePassword } from "./validation";
 
 const token = new AccessToken();
 
@@ -29,11 +30,35 @@ pfp_input.addEventListener("change", function () {
 
 const edit_profile_form = <HTMLFormElement>document.getElementById('editProfileForm')!;
 
+
 edit_profile_form.onsubmit = async (e) => {
+    
     e.preventDefault();
+    const loginInput = <HTMLInputElement>document.getElementById('username')!;
+    const passwordInput = <HTMLInputElement>document.getElementById('new_password')!;
+    console.log(loginInput.value, passwordInput.value);
+    const username = loginInput.value;
+    const password = passwordInput.value;
+    if(loginInput.value != ""){
+        const loginCheck = validateLogin(username);
+        if (loginCheck != "") {
+            alert(loginCheck);
+            return;
+        } 
+    }
+    if(passwordInput.value != ""){
+        const registerCheck = validatePassword(password);   
+            if (registerCheck != "") {
+                alert(registerCheck);
+                return;
+            } 
+    }
+    
     const formData = new FormData(edit_profile_form);
-    console.log(formData)
+    console.log(formData);
     await edit_profile_data(token, formData);
 
     window.location.href = `${window.location.origin}/profile.html`;
 }
+
+
