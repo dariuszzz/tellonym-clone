@@ -34,4 +34,6 @@ edit_profile_form.onsubmit = async (e) => {
     const formData = new FormData(edit_profile_form);
     console.log(formData)
     await edit_profile_data(token, formData);
+
+    window.location.href = `${window.location.origin}/profile.html`;
 }
