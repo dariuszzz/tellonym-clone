@@ -172,7 +172,7 @@ export const constructPost = async (question : QuestionWithAnswer, postCount : n
         let answerDate = new Date(question.answer.answered_at).toLocaleString();
         template = `<div id="questionAndResponses" class="flex flex-col w-full mt-10 bg-slate-300 rounded-md py-2">
         <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
-            <div id="sender">${await getSenderName()}</div>
+            <div id="sender">${senderName}</div>
             <div id="postDate">${questionDate}</div>
         </div>
         <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
@@ -213,7 +213,7 @@ export const constructPost = async (question : QuestionWithAnswer, postCount : n
     else{
         template = `<div id="questionAndResponses" class="flex flex-col w-full mt-10 bg-slate-300 rounded-md py-2">
     <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
-        <div id="sender">${await getSenderName()}</div>
+        <div id="sender">${senderName}</div>
         <div id="postDate">${questionDate}</div>
     </div>
     <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
@@ -226,10 +226,15 @@ export const constructPost = async (question : QuestionWithAnswer, postCount : n
         <button id="qDislikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group">
             <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path></svg>
         </button>
-        
+       
     </div>
 </div>
-
+<div id="answerQuestion" class="flex flex-col gap-2 md:w-2/3 w-4/5 pl-6">
+<textarea id="questionBody" class="p-2 h-14 border-2 border-blue-500 rounded-md resize-none"> </textarea>
+<div id="buttons" class="flex flex-row gap-5 justify-between">
+  <button type="button" id="askButton" class="h-8 w-16 bg-blue-500 hover:bg-blue-700 text-white px-2 rounded-full text-sm">Answer</button> 
+</div>
+</div>
 </div>
 </div>
 
