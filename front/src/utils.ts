@@ -1,4 +1,5 @@
 import { AccessToken, AnswerData, AskData, LoginData, QuestionWithAnswer, VoteData } from "./types";
+import { validateLogin, validatePassword } from "./validation";
 
 
 export const SERVER_URL = "http://127.0.0.1:8000";
@@ -48,6 +49,8 @@ export const fetch_api = async (
 }
 
 export const edit_profile_data = async (access_token: AccessToken, form_data: FormData) => {
+
+
     let result = await fetch(`${SERVER_URL}/editprofile`, {
         body: form_data,
         headers: {            
