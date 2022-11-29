@@ -48,18 +48,16 @@ if (profile_id && (profile_id != my_user?.user.id)) {
         const questionBody = <HTMLInputElement>document.getElementById('questionBody');
         
         
-         if(askButton != null){
+        if(askButton != null){
             askButton.onclick = async () => {
                 const question : AskData = {
                     anonymous : isAnonymous.checked,
                     content : questionBody.value,
                 };
-                if(profile_id != undefined){
-                    questionBody.innerHTML = "";
-                    await ask_question(question, profile_id, token);
-                    await getAndSetUserData();
-                    await showTellsOnProfile();
-                }
+                questionBody.innerHTML = "";
+                await ask_question(question, profile_id!, token);
+                await getAndSetUserData();
+                await showTellsOnProfile();
             }   
         }
     } else {
