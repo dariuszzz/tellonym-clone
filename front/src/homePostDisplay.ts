@@ -1,6 +1,6 @@
 // UWAGA // UWAGA // UWAGA // cały ten plik to horror ponad ludzką komprehencję
 
-import { AccessToken, Like, QuestionWithAnswer, User } from "./types"
+import { AccessToken, Like, QuestionWithAnswer, User, UserWithLikes } from "./types"
 import { fetch_api } from "./utils"
 
 export const postLikeUpdate = (postNumber:number, question: boolean, like: boolean, ignore: boolean, question_id: number) => { // nazwa do zmienienia nie wytrzymam

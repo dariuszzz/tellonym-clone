@@ -65,7 +65,7 @@ if (document.location.pathname == "/index.html") { // okropny, OKROPNY spos√≥b ≈
     .catch(console.error) 
 
     const followers: Array<User> | undefined = await fetch_api(
-        `/user/${myUser?.user.id}/followers`,
+        `/users/${myUser?.user.id}/followers`,
         "GET",
         undefined,
         token
@@ -82,6 +82,8 @@ if (document.location.pathname == "/index.html") { // okropny, OKROPNY spos√≥b ≈
     )
     .then(res => res.json())
     .catch(console.error) 
+
+    posts?.sort((qa1, qa2) => new Date(qa2.question.asked_at).getTime() - new Date(qa1.question.asked_at).getTime())
 
     posts!.forEach((post) => constructPost("wrapper", post,myUser?.user!, followers? followers : [], myUser!.likes))
 
