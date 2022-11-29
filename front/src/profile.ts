@@ -12,6 +12,13 @@ let profile_id: number | undefined = profile ? parseInt(profile) : undefined;
 
 const profileButton = document.getElementById("importantProfileButton")!;
 
+
+const sortTypes = <NodeListOf<HTMLInputElement>>document.querySelectorAll('input[name="sort"]')!;
+sortTypes.forEach(el => el.onchange = async () => {
+    await showTellsOnProfile();
+});
+
+
 const my_user: UserWithLikes | undefined = await fetch_api(
     "/me",
     "GET",
@@ -48,18 +55,16 @@ if (profile_id && (profile_id != my_user?.user.id)) {
         const questionBody = <HTMLInputElement>document.getElementById('questionBody');
         
         
-         if(askButton != null){
+        if(askButton != null){
             askButton.onclick = async () => {
                 const question : AskData = {
                     anonymous : isAnonymous.checked,
                     content : questionBody.value,
                 };
-                if(profile_id != undefined){
-                    questionBody.innerHTML = "";
-                    await ask_question(question, profile_id, token);
-                    await getAndSetUserData();
-                    await showTellsOnProfile();
-                }
+                questionBody.innerHTML = "";
+                await ask_question(question, profile_id!, token);
+                await getAndSetUserData();
+                await showTellsOnProfile();
             }   
         }
     } else {
@@ -70,9 +75,6 @@ if (profile_id && (profile_id != my_user?.user.id)) {
             window.location.href = `${window.location.origin}/login.html`
         }
     }
-
-
-    
 
 } else if (my_user) { //Profil zalogowanego usera
     document.querySelector("#askQuestion")?.remove();
@@ -134,23 +136,26 @@ const getAndSetUserData = async () => {
 //set userdata on load
 const showTellsOnProfile = async () => {
     if(profile_id != undefined){
-        const questions : QuestionWithAnswer[] = await getUserQuestions(profile_id);
+        let questions : QuestionWithAnswer[] = await getUserQuestions(profile_id);
+
+        if (sortTypes[1].checked) {
+            questions = questions.sort((qa1, qa2) => new Date(qa2.question.asked_at).getTime() - new Date(qa1.question.asked_at).getTime())
+        } else {
+            questions = questions.sort((qa1, qa2) => qa2.question.likes - qa1.question.likes)
+        }
+
         const postsHere = document.getElementById('postsHere')!;
         postsHere.innerHTML = "";
-        if(questions){
-            postsHere.innerHTML = "";
-            let i = 0;
-            questions.forEach(async question =>{
-                if(profile_id != undefined){
-                    const element = await constructPost(question, i++, profile_id, token);
-                    if(element != null){
+        let i = 0;
+        questions.forEach(async question =>{
+            if(profile_id != undefined){
+                const element = await constructPost(question, i++, profile_id, token);
+                if(element != null){
                         postsHere.appendChild(element);
                     }
                     
-                }
-                
-            })
-        }  
+            }
+        })
     }
 }
 

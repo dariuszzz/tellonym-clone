@@ -1,6 +1,8 @@
 // UWAGA // UWAGA // UWAGA // cały ten plik to horror ponad ludzką komprehencję
 
-export const postLikeUpdate = (postNumber:number, question: boolean, like: boolean) => { // nazwa do zmienienia nie wytrzymam
+import { Like, QuestionWithAnswer, User } from "./types"
+
+export const postLikeUpdate = (postNumber:number, question: boolean, like: boolean, ignore: boolean) => { // nazwa do zmienienia nie wytrzymam
     
     const questionShort = question? "q": "a"
 
@@ -14,7 +16,7 @@ export const postLikeUpdate = (postNumber:number, question: boolean, like: boole
             if (state) {
                 return parseInt(state)
             } else {
-                return 0
+                return 0 // nie ma nulla nie ma problemu
             }
         }
     
@@ -31,6 +33,7 @@ export const postLikeUpdate = (postNumber:number, question: boolean, like: boole
     
         }   
     
+        // \_(ツ)_/¯
         switch(changedState){
 
             case 1:
@@ -50,21 +53,40 @@ export const postLikeUpdate = (postNumber:number, question: boolean, like: boole
 
         }
 
-        const onLike = () => {
+        // SERVER COMMUNICATION
+        if (!ignore) {
+            switch (changedState) {
+                case -1: // ON DISLIKE
+
+                    break
+                case 0: // ON CANCEL
+
+                    break
+                case 1: // ON LIKE
+
+                    break
+
+            }
 
         }
-        if (changedState == 1) {onLike()}
-    
-        const onDislike = () => {
-
-        }
-        if (changedState == -1) {onDislike()}
 
     }
 
 }
 
-export const constructPost = (targetElementId:string, question:string, answer:string, qName:string, aName:string, qLikes:number, aLikes:number, qDate:string, aDate:string) => {
+export const constructPost = (targetElementId: string, {question, answer}: QuestionWithAnswer,currentUser: User, followers: Array<User>, likes: Array<Like>) => {
+
+    // Szukanie konta autora pytania i odpowiedzi
+    const aUser = [currentUser, ...followers].find(user => user.id == question.asked_id)
+    const qUser = question.asker_id? [currentUser, ...followers].find(user => user.id == question.asker_id) : undefined
+
+    let qLiker = likes.filter(like => like.like_type == "QuestionLike" || like.like_type == "QuestionDislike").find(like => like.resource_id == question.id)
+    const qInitiallyLiked = qLiker? (qLiker.like_type == "QuestionLike"? 1:-1):0
+    question.likes -= qInitiallyLiked
+
+    let aLiker = likes.filter(like => like.like_type == "AnswerLike" || like.like_type == "AnswerDislike").find(like => like.resource_id == answer?.id)
+    const aInitiallyLiked = aLiker? (aLiker.like_type == "QuestionLike"? 1:-1):0
+    question.likes -= aInitiallyLiked
 
     const container = <HTMLElement>document.getElementById(targetElementId)
     const postCount = container.childNodes.length
@@ -91,16 +113,16 @@ export const constructPost = (targetElementId:string, question:string, answer:st
     
         <div id="questionAndResponses" class="flex flex-col mt-10 w-full md:w-3/4 xl:w-1/2 2xl:w-2/5 bg-slate-300 rounded-md py-2">
             <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
-                <div id="sender">${qName}</div>
-                <div id="postDate">${qDate}</div>
+                <div id="sender">${qUser? qUser!.username: "anonymous"}</div>
+                <div id="postDate">${question.asked_at}</div>
             </div>
             <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
-            <div id="postContent" class="w-5/6">${question}</div>
+            <div id="postContent" class="w-5/6">${question.content}</div>
             <div id="rating" class="w-1/6 text-right flex flex-col items-center justify-center">
                 <button id="qLikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
                     <svg aria-hidden="true" class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
                 </button>
-                <p id="qLikes${postCount}" name="0">${qLikes}</p>
+                <p id="qLikes${postCount}" name="0">${question.likes}</p>
                 <button id="qDislikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group">
                     <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path></svg>
                 </button>
@@ -109,16 +131,16 @@ export const constructPost = (targetElementId:string, question:string, answer:st
         </div>
         <div id="responses" class="my-5 pl-14">
             <div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
-            <div id="sender">${aName}</div>
-            <div id="postDate">${aDate}</div>
+            <div id="sender">${aUser?.username}</div>
+            <div id="postDate">${answer?.answered_at}</div>
             </div>
             <div id="elementPlacer" class="flex flex-row justify-between w-full mt-3 pl-4">
-            <div id="postContent" class="w-5/6">${answer}</div>
+            <div id="postContent" class="w-5/6">${answer?.content}</div>
             <div id="rating" class="w-1/6 text-right flex flex-col items-center justify-center">
                 <button id="aLikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500">
                     <svg aria-hidden="true" class="w-8 h-8 " fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M2 10.5a1.5 1.5 0 113 0v6a1.5 1.5 0 01-3 0v-6zM6 10.333v5.43a2 2 0 001.106 1.79l.05.025A4 4 0 008.943 18h5.416a2 2 0 001.962-1.608l1.2-6A2 2 0 0015.56 8H12V4a2 2 0 00-2-2 1 1 0 00-1 1v.667a4 4 0 01-.8 2.4L6.8 7.933a4 4 0 00-.8 2.4z"></path></svg>
                 </button>
-                <p id="aLikes${postCount}" name="0"">${aLikes}</p>
+                <p id="aLikes${postCount - aInitiallyLiked}" name="0"">${answer?.likes}</p>
                 <button id="aDislikeButton${postCount}" class="inline-flex items-center text-sm font-medium text-blue-600 hover:underline dark:text-blue-500 group">
                     <svg aria-hidden="true" class="w-8 h-8" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M18 9.5a1.5 1.5 0 11-3 0v-6a1.5 1.5 0 013 0v6zM14 9.667v-5.43a2 2 0 00-1.105-1.79l-.05-.025A4 4 0 0011.055 2H5.64a2 2 0 00-1.962 1.608l-1.2 6A2 2 0 004.44 12H8v4a2 2 0 002 2 1 1 0 001-1v-.667a4 4 0 01.8-2.4l1.4-1.866a4 4 0 00.8-2.4z"></path></svg>
                 </button>
@@ -132,11 +154,27 @@ export const constructPost = (targetElementId:string, question:string, answer:st
 
     appendMagic(questionUI(),container)
 
-    document.getElementById(`qLikeButton${postCount}`)   ?.addEventListener('click',() => {postLikeUpdate(postCount,true, true)})
-    document.getElementById(`qDislikeButton${postCount}`)?.addEventListener('click',() => {postLikeUpdate(postCount,true, false)})
-    document.getElementById(`aLikeButton${postCount}`)   ?.addEventListener('click',() => {postLikeUpdate(postCount,false,true)})
-    document.getElementById(`aDislikeButton${postCount}`)?.addEventListener('click',() => {postLikeUpdate(postCount,false,false)})
+    let ignore = false
 
+    document.getElementById(`qLikeButton${postCount}`)   !.addEventListener('click',() => {postLikeUpdate(postCount,true, true, ignore)})
+    document.getElementById(`qDislikeButton${postCount}`)!.addEventListener('click',() => {postLikeUpdate(postCount,true, false, ignore)})
+    document.getElementById(`aLikeButton${postCount}`)   !.addEventListener('click',() => {postLikeUpdate(postCount,false,true, ignore)})
+    document.getElementById(`aDislikeButton${postCount}`)!.addEventListener('click',() => {postLikeUpdate(postCount,false,false, ignore)})
+
+    ignore = true
+
+    if (qInitiallyLiked == 1) {
+        document.getElementById(`qLikeButton${postCount}`)!.click()
+    } else if (qInitiallyLiked == -1) {
+        document.getElementById(`qDislikeButton${postCount}`)!.click()
+    }
+
+    if (aInitiallyLiked == 1) {
+        document.getElementById(`aLikeButton${postCount}`)!.click()
+    } else if (aInitiallyLiked == -1) {
+        document.getElementById(`aDislikeButton${postCount}`)!.click()
+    }
+
+    ignore = false
 
 }
-
