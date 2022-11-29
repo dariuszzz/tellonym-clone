@@ -140,8 +140,9 @@ const showTellsOnProfile = async () => {
         questions = questions.sort((qa1, qa2) => new Date(qa2.question.asked_at).getTime() - new Date(qa1.question.asked_at).getTime())
 
         //sort by likes if checked
-        if (sortTypes[0].checked)
+        if (sortTypes[0].checked) {
             questions = questions.sort((qa1, qa2) => qa2.question.likes - qa1.question.likes)
+        }
 
         const postsHere = document.getElementById('postsHere')!;
         postsHere.innerHTML = "";

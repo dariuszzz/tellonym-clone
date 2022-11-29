@@ -210,9 +210,14 @@ export const constructPost = async (question : QuestionWithAnswer,  profileID : 
         const asked = await getUsername(profileID);
 
         askedAndDate = `<div id="elementPlacer" class="flex flex-row justify-between w-full px-4">
-            <div id="sender">${asked}</div>
-            <div id="postDate">${questionDate}</div>
-        </div>`;
+        <div class="flex flex-row items-center gap-2">
+        <div id="photo" class="flex w-10 h-10 rounded-full bg-black overflow-hidden">
+            <img id="profilepic" class="object-cover object-center" src=${SERVER_URL}/pfps/${senderName === "Anonymous" ? "0.jpg" : question.question.asker_id + ".png"}>>
+        </div>    
+        <div id="sender">${senderName}</div>
+    </div>
+    <div id="postDate">${questionDate}</div>
+</div>`
 
         questionTemplate += `
         <div id="responses" class="my-5 pt-2 bg-slate-200 ml-10">
