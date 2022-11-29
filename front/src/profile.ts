@@ -148,8 +148,11 @@ const showTellsOnProfile = async () => {
         let i = 0;
         questions.forEach(async question =>{
             if(profile_id != undefined){
-                postsHere.appendChild(await constructPost(question, i, profile_id));
-                i+=1;
+                const element = await constructPost(question, i++, profile_id, token);
+                if(element != null){
+                        postsHere.appendChild(element);
+                    }
+                    
             }
         })
     }
