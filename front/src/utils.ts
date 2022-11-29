@@ -90,6 +90,8 @@ export const log_in = async (username: string, password: string, token: AccessTo
     .then(res => res.text())
     .then(res => token.token = res)
     .catch(() => console.error("Problem with logging in"))
+    
+    window.location.href = `${window.location.origin}/profile.html`;
 }
 
 export const registerUser = async (username: string, password: string, token: AccessToken) => {
@@ -102,6 +104,7 @@ export const registerUser = async (username: string, password: string, token: Ac
     .then(res => token.token = res)
     .catch(() => console.error("Problem with registering")) ?? "";
     
+    window.location.href = `${window.location.origin}/profile.html`;
 }
 
 export const follow_user = async (user_id: number, token: AccessToken) => {
