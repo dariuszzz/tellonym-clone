@@ -14,6 +14,7 @@ export const fetch_api_raw = async (
 ): Promise<Response> => fetch(`${SERVER_URL}${route}`, {
     ...(json && { body: JSON.stringify(json) }),
     headers: {
+        "Bypass-Tunnel-Reminder": "true",
         ...(json && { "Content-Type": "application/json" }),
         ...(access_token && { "Authorization": `Bearer: ${access_token.token}` }),
     },
@@ -52,7 +53,8 @@ export const edit_profile_data = async (access_token: AccessToken, form_data: Fo
 
     let result = await fetch(`${SERVER_URL}/editprofile`, {
         body: form_data,
-        headers: {            
+        headers: {      
+            "Bypass-Tunnel-Reminder": "true",   
             "Authorization": `Bearer: ${access_token.token}`,
         },
         credentials: "include",
@@ -72,6 +74,7 @@ export const edit_profile_data = async (access_token: AccessToken, form_data: Fo
         return await  fetch(`${SERVER_URL}/editprofile`, {
             body: form_data,
             headers: {            
+                "Bypass-Tunnel-Reminder": "true",
                 "Authorization": `Bearer: ${access_token.token}`,
             },
             credentials: "include",

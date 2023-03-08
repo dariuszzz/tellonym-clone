@@ -1,7 +1,7 @@
 import "./index.css";
 import { checkIfUserIsFollowed } from "./isUserFollowed";
-import {AccessToken, User, UserWithLikes} from './types';
-import { fetch_api, follow_user } from "./utils";
+import { AccessToken, User, UserWithLikes } from './types';
+import { SERVER_URL, fetch_api, follow_user } from "./utils";
 
 
 const token = new AccessToken();
@@ -52,7 +52,7 @@ const constructElement = (user: User, followed: boolean | undefined) => {
     const template = `
         <div class="flex flex-row items-center gap-2 w-full h-full pointer-events-none">
             <div class="flex rounded-full overflow-hidden h-4/5 aspect-square pointer-events-none">
-                <img class="object-scale-down object-center" src="http://127.0.0.1:8000/pfps/${user.id}.png">
+                <img class="object-scale-down object-center" src="${SERVER_URL}/pfps/${user.id}.png">
             </div>
             <div class="flex flex-col justify-between pointer-events-none">
                 <p><b>${user.username}</b></p>
